@@ -5,7 +5,6 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
@@ -13,7 +12,6 @@ class World {
         this.draw();
         this.setWorld();
     }
-
     setWorld() {
         this.character.world = this;
     }

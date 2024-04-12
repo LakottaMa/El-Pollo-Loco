@@ -1,7 +1,7 @@
 class Character extends MoveableObject {
     height = 600;
     width = 280;
-    y =  60;
+    y = 60;
     speed = 1.75;
     IMAGES_WALKING = [
         '../img/2_character_pepe/2_walk/W-21.png',
@@ -27,7 +27,7 @@ class Character extends MoveableObject {
         super().loadImg(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
-        this.applyGravity();  
+        this.applyGravity();
         this.animate();
     }
     animate() {
@@ -40,7 +40,6 @@ class Character extends MoveableObject {
             if (this.world.keyboard.LEFT && this.x > -1000) {
                 this.moveLeft();
                 this.otherDirection = true;
-
                 // walking sound
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
@@ -58,6 +57,6 @@ class Character extends MoveableObject {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-        },60);
+        }, 60);
     }
 }

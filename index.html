@@ -12,7 +12,16 @@
 
 <body onload="init()">
     <h1>El Pollo Loco</h1>
-    <canvas id="canvas" width="1280px" height="720px"></canvas>
+    <main id="fullScreen">
+        <button class="fullscreen-btn" id="fullscreenButton"></button>
+        <canvas id="canvas" width="1280px" height="720px"></canvas>
+        <div class="mobile-controls">
+            <button class="mobile-control-btn">left</button>
+            <button class="mobile-control-btn">right</button>
+            <button class="mobile-control-btn">jump</button>
+            <button class="mobile-control-btn">shoot</button>
+        </div>
+    </main>
     <script src="./models/moveable-object.class.js"></script>
     <script src="./models/character.class.js"></script>
     <script src="./models/chicken.class.js"></script>

@@ -3,10 +3,11 @@
     src: url(fonts/zabars.ttf);
 }
 
-body{
+body {
+    position: relative;
     margin: 0;
     box-sizing: border-box;
-    min-height: 100dvh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,17 +17,99 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'zabars', Arial, Helvetica, sans-serif;
+    overflow: hidden;
+    user-select: none;
 }
 
-canvas{
-    background-color: rgba(0, 0, 0, 0.537);
+main {
+    position: relative;
+    border: 1px solid #fc5454;
+}
+
+canvas {
     display: block;
+    border-radius: 12px;
 }
 
 h1 {
-    font-size: 64px;
-    letter-spacing: 3px;
-    text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.5);
+    font-size: calc(32px + 2vmin);
+    letter-spacing: 6px;
+    text-shadow: 4px 4px 4px rgba(42, 39, 12, 0.461);
+    background: linear-gradient(to right, #994409, #B76127, #BC7A0F, #A0220A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.mobile-controls {
+    position: absolute;
+    bottom: 0;
+    height: 64px;
+    width: 100%;
+    max-height: calc(16px + 4vmin);
+    display: flex;
+    align-items: center;
+    :nth-child(1) {
+        flex: 1;
+        margin: 0 calc(16px + 1vmin) 0 calc(16px + 1vmin);
+    }
+    :nth-child(2) {
+        flex: 1;
+    }
+    :nth-child(3) {
+        flex: 2;
+        margin-left: calc(16px + 8vmin);
+    }
+    :nth-child(4) {
+        flex: 1;
+        margin: 0 calc(16px + 2vmin) 0 calc(16px + 4vmin);
+    }
+}
+
+.mobile-control-btn {
+    text-align: center;
+    text-shadow: 1px 1px 2px rgb(254, 130, 130);
+    font-family: 'zabars', Arial, Helvetica, sans-serif;
+    font-size: calc(16px + 1.4vmin);
+    letter-spacing: 1.5px;
+    background-color: #FCD354;
+    border-radius: 100px;
+    cursor: pointer;
+    &:hover {
+        font-size: calc(16px + 1.8vmin);
+        text-shadow: 1px 1px 2px rgb(255, 255, 255);
+    }
+    &:active {
+        font-size: calc(16px + 1.8vmin);
+        text-shadow: 1px 1px 2px rgb(0, 255, 21);
+    background-color: #ff8400;
+    border-radius: 24px;
+    }
+}
+
+.mobile-control-btn.active {
+    font-size: calc(16px + 1.6vmin);
+    text-shadow: 1px 1px 2px rgb(0, 255, 21);
+    background-color: #ff8400;
+    border-radius: 24px;
+}
+
+.fullscreen-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: calc(16px + 2vmin);
+    height: calc(16px + 2vmin);
+    background-image: url(./img/icons/fullscreen-64.png);
+    background-size: cover;
+    background-color: #FCD354;
+    border: 4px solid #FCD354;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        transform: scale(1.1);
+    }
 }
 
 .d-none {
@@ -34,13 +117,18 @@ h1 {
 }
 
 @media screen and (max-width: 1280px) {
-    canvas{
-        width: 100%;
+    canvas {
+        width: 99dvw;
+    }
+    h1{
+        display: none !important;
     }
 }
 
-@media screen and (max-height: 720px) {
-    cavas{
-    height: 100dvh;
+@media screen and (max-height: 430px) {
+    canvas, main {
+        height: 99dvh;
     }
+
+
 }

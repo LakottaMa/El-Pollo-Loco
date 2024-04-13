@@ -8,11 +8,11 @@ let keyboard = new Keyboard();
 function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
+    checkMobileDevice();
 }
 // Event Listener für Tastatureingaben
 window.addEventListener("keydown", handleKeyDown);
 window.addEventListener("keyup", handleKeyUp);
-
 function handleKeyDown(event) {
     if (event.key == "ArrowLeft") {
         keyboard.LEFT = true;
@@ -29,8 +29,10 @@ function handleKeyDown(event) {
     if (event.key == " ") {
         keyboard.SPACE = true;
     }
+    if (event.key == "d") {
+        keyboard.D = true;
+    }
 }
-
 // Funktion zur Behandlung von Tastaturereignissen
 function handleKeyUp(event) {
     if (event.key == "ArrowLeft") {
@@ -48,8 +50,10 @@ function handleKeyUp(event) {
     if (event.key == " ") {
         keyboard.SPACE = false;
     }
+    if (event.key == "d") {
+        keyboard.D = false;
+    }
 }
-
 // Funktion zur Behandlung von Button-Klicks
 function handleButtonClick(action) {
     switch (action) {
@@ -62,18 +66,25 @@ function handleButtonClick(action) {
         case "jump":
             keyboard.SPACE = true;
             break;
+        case "shoot":
+            keyboard.D = true;
+            break;
         default:
             break;
     }
 }
-// Event Listener für Button-Klicks
-let controlButtons = document.querySelectorAll('.mobile-controls .mobile-control-btn');
+// Event Listener für Button-Klicks und Touch-Eingaben
+const controlButtons = document.querySelectorAll('.mobile-control-btn');
 controlButtons.forEach(button => {
-    button.addEventListener('mousedown', function() {
-        handleButtonClick(button.textContent.toLowerCase());
-    });
-    button.addEventListener('mouseup', function() {
-        switch (button.textContent.toLowerCase()) {
+    let action = button.textContent.toLowerCase();
+    // Funktion zur Behandlung der Aktionen bei Drücken des Buttons
+    function handleButtonPress() {
+        handleButtonClick(action);
+        button.classList.add('active');
+    }
+    // Funktion zur Behandlung der Aktionen bei Loslassen des Buttons
+    function handleButtonRelease() {
+        switch (action) {
             case "left":
                 keyboard.LEFT = false;
                 break;
@@ -83,11 +94,31 @@ controlButtons.forEach(button => {
             case "jump":
                 keyboard.SPACE = false;
                 break;
+            case "shoot":
+                keyboard.D = false;
+                break;
             default:
                 break;
         }
+        button.classList.remove('active');
+    }
+    // Event Listener für Maus-Klicks
+    button.addEventListener('mousedown', handleButtonPress);
+    button.addEventListener('mouseup', handleButtonRelease);
+    // Event Listener für Touch-Eingaben
+    button.addEventListener('touchstart', function (event) {
+        event.preventDefault();
+        handleButtonPress();
+    });
+    button.addEventListener('touchend', function () {
+        handleButtonRelease();
+    });
+    // Event Listener für Touch-Abbruch
+    button.addEventListener('touchcancel', function () {
+        handleButtonRelease();
     });
 });
+
 /**
  * Add event listener to the fullscreen button
  */
@@ -95,13 +126,13 @@ fullscreenButton.addEventListener('click', function () {
     if (!isFullscreen) {
         enterFullscreen();
         fullscreenButton.style.backgroundImage = 'url(./img/icons/minimize-64.png)';
-        document.getElementsByTagName('main')[0].style.width = '100%';
-        document.getElementsByTagName('main')[0].style.height = '100dvh';
+        document.getElementsByTagName('canvas')[0].style.width = '100%';
+        document.getElementsByTagName('h1')[0].style.display = 'none';
     } else {
         exitFullscreen();
         fullscreenButton.style.backgroundImage = 'url(./img/icons/fullscreen-64.png)';
-        document.getElementsByTagName('main')[0].style.width = '';
-        document.getElementsByTagName('main')[0].style.height = '';
+        document.getElementsByTagName('canvas')[0].style.width = '';
+        document.getElementsByTagName('canvas')[0].style.height = '';
     }
 });
 /**
@@ -122,22 +153,28 @@ function exitFullscreen() {
     isFullscreen = false;
 }
 /**
- *Mobile device detection
+ * Checks if the user agent is a mobile device.
+ * @returns {boolean} True if the user agent is a mobile device, false otherwise.
  */
 function isMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    let mobileAgents = ['Android', 'webOS', 'iPhone', 'iPad', 'BlackBerry', 'IEMobile', 'Opera Mini', 'Windows Phone', 'UCWEB', 'Chrome OS', 'Symbian', 'SymbianOS', 'BlackBerry OS', 'Nokia', 'Opera Mini', 'Opera Mobile', 'PalmOS', 'PalmSource', 'Xoom', 'WAP', 'WAP2', 'WAP2.0', 'WAP2.1'];
+    return mobileAgents.some(agent => navigator.userAgent.includes(agent));
+}
+/**
+ * checked if the device is mobile and the window is in portrait orientation.
+ * else it will show an alert.
+ */
+function checkMobileDevice() {
+    if (isMobileDevice() && !isLandscapeOrientation()) {
+        // alert zum schönen dialog bauen!!
+        alert("Bitte drehen Sie Ihr Gerät ins Querformat, um das Spiel zu spielen.");
+    }
 }
 /**
  * Checks if the window is in landscape orientation.
- * @return {boolean} true if the window is in landscape orientation, false otherwise
+ * @return {boolean} true if the window is in landscape orientation, false otherwise.
  */
 function isLandscapeOrientation() {
     return window.matchMedia("(orientation: landscape)").matches;
 }
-/**
- * disable fullscreen mode if the device is mobile and the window is in landscape orientation.
- */
-if (isMobileDevice() && !isLandscapeOrientation()) {
-    document.getElementById('fullscreenButton').style.display = 'none';
-    alert("Bitte drehen Sie Ihr Gerät ins Querformat, um das Spiel zu spielen.");
-}
+

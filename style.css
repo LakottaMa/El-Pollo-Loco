@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'zabars';
-    src: url(fonts/zabars.ttf);
+    src: url(./fonts/Zabars.ttf) format('truetype');
 }
 
 body {
@@ -23,12 +23,21 @@ body {
 
 main {
     position: relative;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
     border: 1px solid #fc5454;
 }
 
 canvas {
     display: block;
     border-radius: 12px;
+    max-width: 97dvw;
+    max-height: 97dvh;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    background-color: transparent;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    
 }
 
 h1 {
@@ -117,18 +126,11 @@ h1 {
 }
 
 @media screen and (max-width: 1280px) {
-    canvas {
-        width: 99dvw;
-    }
     h1{
         display: none !important;
     }
 }
 
 @media screen and (max-height: 430px) {
-    canvas, main {
-        height: 99dvh;
-    }
-
 
 }

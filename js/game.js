@@ -8,7 +8,8 @@ let keyboard = new Keyboard();
 function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
-    checkMobileDevice();
+    // checkMobileDevice();
+    // gameStart();
 }
 // Event Listener für Tastatureingaben
 window.addEventListener("keydown", handleKeyDown);
@@ -29,9 +30,6 @@ function handleKeyDown(event) {
     if (event.key == " ") {
         keyboard.SPACE = true;
     }
-    if (event.key == "d") {
-        keyboard.D = true;
-    }
 }
 // Funktion zur Behandlung von Tastaturereignissen
 function handleKeyUp(event) {
@@ -50,9 +48,6 @@ function handleKeyUp(event) {
     if (event.key == " ") {
         keyboard.SPACE = false;
     }
-    if (event.key == "d") {
-        keyboard.D = false;
-    }
 }
 // Funktion zur Behandlung von Button-Klicks
 function handleButtonClick(action) {
@@ -64,10 +59,10 @@ function handleButtonClick(action) {
             keyboard.RIGHT = true;
             break;
         case "jump":
-            keyboard.SPACE = true;
+            keyboard.UP = true;
             break;
         case "shoot":
-            keyboard.D = true;
+            keyboard.SPACE = true;
             break;
         default:
             break;
@@ -92,10 +87,10 @@ controlButtons.forEach(button => {
                 keyboard.RIGHT = false;
                 break;
             case "jump":
-                keyboard.SPACE = false;
+                keyboard.UP = false;
                 break;
             case "shoot":
-                keyboard.D = false;
+                keyboard.SPACE = false;
                 break;
             default:
                 break;
@@ -107,7 +102,7 @@ controlButtons.forEach(button => {
     button.addEventListener('mouseup', handleButtonRelease);
     // Event Listener für Touch-Eingaben
     button.addEventListener('touchstart', function (event) {
-        event.preventDefault();
+        if (event.cancelable) event.preventDefault();
         handleButtonPress();
     });
     button.addEventListener('touchend', function () {
@@ -125,14 +120,10 @@ controlButtons.forEach(button => {
 fullscreenButton.addEventListener('click', function () {
     if (!isFullscreen) {
         enterFullscreen();
-        fullscreenButton.style.backgroundImage = 'url(./img/icons/minimize-64.png)';
-        document.getElementsByTagName('canvas')[0].style.width = '100%';
-        document.getElementsByTagName('h1')[0].style.display = 'none';
+        fullscreenButton.style.backgroundImage = 'url(./img/icons/minimize_64.png)';
     } else {
         exitFullscreen();
-        fullscreenButton.style.backgroundImage = 'url(./img/icons/fullscreen-64.png)';
-        document.getElementsByTagName('canvas')[0].style.width = '';
-        document.getElementsByTagName('canvas')[0].style.height = '';
+        fullscreenButton.style.backgroundImage = 'url(./img/icons/fullscreen_64.png)';
     }
 });
 /**
@@ -177,4 +168,33 @@ function checkMobileDevice() {
 function isLandscapeOrientation() {
     return window.matchMedia("(orientation: landscape)").matches;
 }
+
+function startingGame() {
+    let canvasElement = document.querySelector('canvas');
+    let startElement = document.getElementById('game-start');
+    canvasElement.classList.remove('d-none');
+    startElement.classList.add('d-none');
+}
+
+function gameStart() {
+    let canvasElement = document.querySelector('canvas');
+    let startElement = document.getElementById('game-start');
+    canvasElement.classList.add('d-none');
+    startElement.classList.remove('d-none');
+}
+
+function gameOver() {
+    clearAllIntervals();
+    let canvasElement = document.querySelector('canvas');
+    let controlsElement = document.getElementById('mobile-controls');
+    let gameOverElement = document.getElementById('game-over');
+    canvasElement.classList.add('d-none');
+    controlsElement.classList.add('d-none');
+    gameOverElement.classList.remove('d-none');
+}
+
+function clearAllIntervals() {
+    for (let i = 1; i < 9999; i++) window.clearInterval(i);
+}
+
 

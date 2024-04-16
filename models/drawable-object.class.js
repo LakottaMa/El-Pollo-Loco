@@ -21,16 +21,24 @@ class DrawableObject {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    }
-
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
-            ctx.beginPath();
-            ctx.lineWidth = '0.5';
-            ctx.strokeStyle = 'blue';
-            ctx.strokeRect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
+        try {
+            ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        } catch (e) {
+            console.log('error loading image', e);
+            console.log('tried to load', this.img.src);
         }
     }
+
+    //----- Rahmen zeichnen -----
+    // drawFrame(ctx) {
+    //     if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+    //         ctx.beginPath();
+    //         ctx.lineWidth = '0.5';
+    //         ctx.strokeStyle = 'blue';
+    //         ctx.strokeRect(this.x, this.y, this.width, this.height);
+    //         ctx.stroke();
+    //     }
+    // }
+
+    
 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" translate="no">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -8,30 +7,46 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./img/favicon/sombrero.png" type="image/x-icon">
     <title>El Pollo Loco</title>
-
-    
 </head>
-
 <body onload="init()">
     <h1>El Pollo Loco</h1>
     <main id="fullScreen">
-        <button class="fullscreen-btn" id="fullscreenButton"></button>
-        <canvas id="canvas" width="1280px" aspect-ratio="16/9" height="720px"></canvas>
-        <div class="mobile-controls">
-            <button class="mobile-control-btn">left</button>
-            <button class="mobile-control-btn">right</button>
-            <button class="mobile-control-btn">jump</button>
-            <button class="mobile-control-btn">shoot</button>
+        <div id="top-bar" class="top-bar">
+            <button id="startGame" class="start-btn" onclick="startingGame()"></button>
+            <button class="sound-toggle-btn" id="soundToggle"></button>
+            <button class="fullscreen-btn" id="fullscreenButton"></button>
+        </div>
+        <canvas id="canvas" width="1280px" height="720px"></canvas>
+        <div id="game-container-state" class="game-container-state">
+            <div id="game-start" class="game-start d-none"><img
+                    src="./img/9_intro_outro_screens/start/startscreen_2.png"></div>
+            <div id="game-win" class="game-win d-none"><img
+                    src="./img/9_intro_outro_screens/game_over/oh no you lost!.png"></div>
+            <div id="game-over" class="game-over d-none"><img
+                    src="./img/9_intro_outro_screens/game_over/oh no you lost!.png"></div>
+        </div>
+        <div id="mobile-controls" class="mobile-controls">
+            <div>
+                <button class="mobile-control-btn">left<img src="./img/icons/left_64.png" alt="Left arrow icon"></button>
+                <button class="mobile-control-btn">right<img src="./img/icons/right_64.png" alt="Right arrow icon"></button>
+            </div>
+            <div>
+                <button class="mobile-control-btn">jump<img src="./img/icons/jump_64.png" alt="Jump icon"></button>
+                <button class="mobile-control-btn">shoot<img src="./img/icons/shoot_64.png" alt="Shoot icon"></button>
+            </div>
         </div>
     </main>
     <script src="./models/drawable-object.class.js"></script>
     <script src="./models/moveable-object.class.js"></script>
     <script src="./models/character.class.js"></script>
     <script src="./models/chicken.class.js"></script>
+    <script src="./models/small-chicken.class.js"></script>
     <script src="./models/cloud.class.js"></script>
-    <script src="./models/status-bar.class.js"></script>
+    <script src="./models/status-bar-health.class.js"></script>
+    <script src="./models/status-bar-coins.class.js"></script>
+    <script src="./models/coins.class.js"></script>
+    <script src="./models/bottle-onGround.class.js"></script>
     <script src="./models/throwable-object.class.js"></script>
-
     <script src="./models/world.class.js"></script>
     <script src="./models/background-object.class.js"></script>
     <script src="./models/keyboard.class.js"></script>
@@ -40,5 +55,4 @@
     <script src="./levels/level1.js"></script>
     <script src="./js/game.js"></script>
 </body>
-
 </html>

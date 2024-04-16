@@ -5,13 +5,13 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
+    coinsBar = new CoinsBar();
+    healthBar = new HealthBar();
     throwableObjects = [];
-    constructor(canvas, keyboard, statusbar) {
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.statusbar = statusbar;
         this.draw();
         this.setWorld();
         this.run();
@@ -19,7 +19,6 @@ class World {
     setWorld() {
         this.character.world = this;
     }
-
     run() {
         setInterval(() => {
             this.checkCollisions();
@@ -31,13 +30,13 @@ class World {
         this.level.enemies.forEach((enemies) => {
             if (this.character.isColliding(enemies)) {
                 this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
-            }                
-        },100);
+                this.healthBar.setPercentage(this.character.energy);
+            }
+        }, 100);
     }
 
     checkThrowObject() {
-        if (this.keyboard.D){
+        if (this.keyboard.SPACE) {
             let bottle = new ThrowableObject(this.character.x + 160, this.character.y + 280);
             this.throwableObjects.push(bottle);
         }
@@ -47,20 +46,22 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectToMap(this.level.backgroundObjects);
-        this.addObjectToMap(this.throwableObjects);
-
-
+        this.addObjectToMap(this.throwableObjects);        
         this.addObjectToMap(this.level.clouds);
         this.addObjectToMap(this.level.enemies);
+        this.addObjectToMap(this.level.coins);
+        this.addObjectToMap(this.level.bottle);
+
 
         this.addToMap(this.character);
 
         this.ctx.translate(-this.camera_x, 0);
         // ------ Space for fixed objects ------
-        this.addToMap(this.statusBar);
+        this.addToMap(this.healthBar);
+        this.addToMap(this.coinsBar);
         this.ctx.translate(this.camera_x, 0);
         // --------------------------------------
-
+        
         this.ctx.translate(-this.camera_x, 0);
 
         let self = this;
@@ -78,7 +79,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);   // das ist der Rahmen der Bewegung
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

@@ -11,7 +11,7 @@ class MoveableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.accelerate;
             }
-        }, 1000 / 30);
+        }, 1000 / 33);
     }
     isAboveGround() {
         if (this instanceof ThrowableObject) {
@@ -29,9 +29,8 @@ class MoveableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 10;
+        this.energy -= 0;
         if (this.energy < 0) {
-            console.log('dead');
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();
@@ -40,12 +39,16 @@ class MoveableObject extends DrawableObject {
 
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
-        timepassed = timepassed / 1000;
-        return timepassed < 0.25;
+        timepassed = timepassed / 200;
+        return timepassed < 1;
     }
 
     isDead() {
-        return this.energy <= 0
+        if (this.energy <= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     playAnimation(images) {
@@ -61,6 +64,8 @@ class MoveableObject extends DrawableObject {
         this.x -= this.speed;
     }
     jump() {
-        this.speedY = 40;
+        this.speedY = 36;
     }
+
+
 }

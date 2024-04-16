@@ -3,10 +3,13 @@
     src: url(./fonts/Zabars.ttf) format('truetype');
 }
 
-body {
-    position: relative;
-    margin: 0;
+* {
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
     height: 100dvh;
     display: flex;
     align-items: center;
@@ -21,116 +24,156 @@ body {
     user-select: none;
 }
 
-main {
-    position: relative;
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-    border: 1px solid #fc5454;
-}
-
-canvas {
-    display: block;
-    border-radius: 12px;
-    max-width: 97dvw;
-    max-height: 97dvh;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    background-color: transparent;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    
-}
-
 h1 {
     font-size: calc(32px + 2vmin);
     letter-spacing: 6px;
     text-shadow: 4px 4px 4px rgba(42, 39, 12, 0.461);
     background: linear-gradient(to right, #994409, #B76127, #BC7A0F, #A0220A);
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
-}
-
-.mobile-controls {
-    position: absolute;
-    bottom: 0;
-    height: 64px;
-    width: 100%;
-    max-height: calc(16px + 4vmin);
-    display: flex;
-    align-items: center;
-    :nth-child(1) {
-        flex: 1;
-        margin: 0 calc(16px + 1vmin) 0 calc(16px + 1vmin);
-    }
-    :nth-child(2) {
-        flex: 1;
-    }
-    :nth-child(3) {
-        flex: 2;
-        margin-left: calc(16px + 8vmin);
-    }
-    :nth-child(4) {
-        flex: 1;
-        margin: 0 calc(16px + 2vmin) 0 calc(16px + 4vmin);
-    }
-}
-
-.mobile-control-btn {
-    text-align: center;
-    text-shadow: 1px 1px 2px rgb(254, 130, 130);
-    font-family: 'zabars', Arial, Helvetica, sans-serif;
-    font-size: calc(16px + 1.4vmin);
-    letter-spacing: 1.5px;
-    background-color: #FCD354;
-    border-radius: 100px;
-    cursor: pointer;
-    &:hover {
-        font-size: calc(16px + 1.8vmin);
-        text-shadow: 1px 1px 2px rgb(255, 255, 255);
-    }
-    &:active {
-        font-size: calc(16px + 1.8vmin);
-        text-shadow: 1px 1px 2px rgb(0, 255, 21);
-    background-color: #ff8400;
-    border-radius: 24px;
-    }
-}
-
-.mobile-control-btn.active {
-    font-size: calc(16px + 1.6vmin);
-    text-shadow: 1px 1px 2px rgb(0, 255, 21);
-    background-color: #ff8400;
-    border-radius: 24px;
-}
-
-.fullscreen-btn {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    width: calc(16px + 2vmin);
-    height: calc(16px + 2vmin);
-    background-image: url(./img/icons/fullscreen-64.png);
-    background-size: cover;
-    background-color: #FCD354;
-    border: 4px solid #FCD354;
-    border-radius: 6px;
-    cursor: pointer;
-    outline: none;
-    transition: all 0.2s ease-in-out;
-    &:hover {
-        transform: scale(1.1);
-    }
 }
 
 .d-none {
     display: none !important;
 }
 
+main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: 1280px;
+    max-height: 720px;
+}
+
+.top-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    gap: 24px;
+    padding: 24px;
+}
+
+canvas {
+    display: block;
+    border-radius: 12px;
+    max-width: 100%;
+    max-height: 100%;
+    border: 1px solid rgba(139, 139, 139, 0.5);
+    background-color: black;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.game-container-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+}
+
+.game-over img,
+.game-win img,
+.game-start img {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mobile-controls {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    bottom: 8px;
+    width: 100%;
+    height: calc(6px + 4vmin);
+}
+
+.mobile-control-btn {
+    height: 100%;
+    margin: 0 16px;
+    font-size: 0;
+    background-color: rgb(252, 211, 84, 0.7);
+    border-radius: 10px;
+
+    img {
+        height: 100%;
+        padding: 2px;
+    }
+
+    &:active {
+        background-color: #ff8400;
+        border-radius: 10px;
+    }
+}
+
+.mobile-control-btn.active {
+    background-color: #ff8400;
+    border-radius: 18px;
+}
+
+.start-btn {
+    width: calc(16px + 2vmin);
+    height: calc(16px + 2vmin);
+    background-image: url(./img/icons/play_64.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1px solid rgb(230, 230, 230, 0);
+    background-color: rgb(230, 230, 230, 0.5);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.fullscreen-btn {
+    width: calc(16px + 2vmin);
+    height: calc(16px + 2vmin);
+    background-image: url(./img/icons/fullscreen_64.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 2px solid rgb(230, 230, 230, 0);
+    background-color: rgb(230, 230, 230, 0.5);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.sound-toggle-btn {
+    width: calc(16px + 2vmin);
+    height: calc(16px + 2vmin);
+    margin: 0 12px;
+    background-image: url(./img/icons/sound_on_64.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1px solid rgb(230, 230, 230, 0);
+    background-color: rgb(230, 230, 230, 0.5);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+
 @media screen and (max-width: 1280px) {
-    h1{
+    h1 {
         display: none !important;
     }
 }
 
-@media screen and (max-height: 430px) {
-
-}
+/* @media screen and (max-height: 430px) {
+    .game-over img, .game-win img, .game-start img {
+        height: 97dvh !important;
+    } */

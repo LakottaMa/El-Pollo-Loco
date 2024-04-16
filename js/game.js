@@ -168,21 +168,18 @@ function checkMobileDevice() {
 function isLandscapeOrientation() {
     return window.matchMedia("(orientation: landscape)").matches;
 }
-
 function startingGame() {
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
     canvasElement.classList.remove('d-none');
     startElement.classList.add('d-none');
 }
-
 function gameStart() {
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
     canvasElement.classList.add('d-none');
     startElement.classList.remove('d-none');
 }
-
 function gameOver() {
     clearAllIntervals();
     let canvasElement = document.querySelector('canvas');
@@ -192,7 +189,6 @@ function gameOver() {
     controlsElement.classList.add('d-none');
     gameOverElement.classList.remove('d-none');
 }
-
 function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }

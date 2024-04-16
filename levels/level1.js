@@ -1,4 +1,4 @@
-// let level1;
+let level1;
 // function initLevel() {
 //----- die function zum start btn deklarieren und aufrufen ----
 
@@ -6,16 +6,15 @@ level1 = new Level(
     [
         new SmallChicken(),
         new SmallChicken(),
-        // new SmallChicken(),
-        // new SmallChicken(),
-        // new SmallChicken(),
-        // new Chicken(),
-        // new Chicken(),
-        // new Chicken(),
-        // new Chicken(),
+        new SmallChicken(),
+        new SmallChicken(),
+        new SmallChicken(),
         new Chicken(),
         new Chicken(),
-        new Endboss()
+        new Chicken(),
+        new Chicken(),
+        new Chicken(),
+        new Endboss(3800)
     ],
     [
         new Cloud('../img/5_background/layers/4_clouds/1.png'),
@@ -49,18 +48,18 @@ level1 = new Level(
         new BackgroundObject("../img/5_background/layers/1_first_layer/2.png", 1277 * 3, 0)
     ],
     [
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins()
+        new Coins(-130),
+        new Coins(400),
+        new Coins(1000),
+        new Coins(1500),
+        new Coins(2300)
     ],
     [
-        new BottleOnGround(),
-        new BottleOnGround(),
-        new BottleOnGround(),
-        new BottleOnGround(),
-        new BottleOnGround()
+        new BottleOnGround(280),
+        new BottleOnGround(580),
+        new BottleOnGround(1200),
+        new BottleOnGround(1800),
+        new BottleOnGround(2500)
     ]
 );
 // }

@@ -3,6 +3,12 @@ class Character extends MoveableObject {
     width = 280;
     y = 60;
     speed = 1.75;
+    offset = {
+        right: 80,
+        left: 70,
+        bottom: 30,
+        top: 280
+    };
     IMAGES_WALKING = [
         '../img/2_character_pepe/2_walk/W-21.png',
         '../img/2_character_pepe/2_walk/W-22.png',
@@ -51,9 +57,6 @@ class Character extends MoveableObject {
         '../img/2_character_pepe/1_idle/idle/I-9.png',
         '../img/2_character_pepe/1_idle/idle/I-10.png'
     ];
-
-
-    world;
     constructor() {
         super().loadImg(this.IMAGES_JUMPING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -82,7 +85,6 @@ class Character extends MoveableObject {
             }
             this.world.camera_x = -this.x + 100;
         });
-
         setInterval(() => {
             if (this.isDead()) {
                 gameOver();

@@ -1,5 +1,4 @@
 class ThrowableObject extends MoveableObject {
-
     THROW_BOTTLE_IMAGES = [
         '../img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         '../img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -14,8 +13,6 @@ class ThrowableObject extends MoveableObject {
         '../img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         '../img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
-
-
     constructor(x, y) {
         super().loadImg(this.THROW_BOTTLE_IMAGES[0]);
         this.loadImages(this.THROW_BOTTLE_IMAGES);
@@ -27,7 +24,6 @@ class ThrowableObject extends MoveableObject {
         this.throw();
         this.animateThrowBottle();
     }
-
     throw() {
         this.speedY = 20;
         this.applyGravity();
@@ -35,12 +31,9 @@ class ThrowableObject extends MoveableObject {
             this.x += 10;
         },16);
     }
-
     animateThrowBottle() {
         setInterval(() => {
             this.playAnimation(this.THROW_BOTTLE_IMAGES);
         }, 70);
     }
-
-
 }

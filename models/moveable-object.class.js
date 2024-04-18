@@ -11,6 +11,9 @@ class MoveableObject extends DrawableObject {
         right: 0,
         bottom: 0
     }
+    /**
+     * Applies gravity to the object, causing it to move downwards at a constant rate.
+     */
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -19,6 +22,10 @@ class MoveableObject extends DrawableObject {
             }
         }, 1000 / 60);
     }
+    /**
+     * Checks if the object is above the ground.
+     * @return {boolean} True if the object is above the ground, false otherwise.
+     */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
@@ -26,12 +33,20 @@ class MoveableObject extends DrawableObject {
              return this.y < 120; 
         }
     }
+    /**
+     * Checks if the current object is colliding with another object.
+     * @param {Object} mo - The other object to check collision with.
+     * @return {boolean} Returns true if the objects are colliding, false otherwise.
+     */
     isColliding(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left && // R -> L
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // B -> T
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right && // L -> R
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom; // T -> B
-    }
+    }    
+    /**
+     * Decreases the energy of the object by 1 and updates the last hit time if the energy is greater than 0.
+     */
     hit() {
         this.energy -= 1;
         if (this.energy < 0) {
@@ -40,7 +55,10 @@ class MoveableObject extends DrawableObject {
             this.lastHit = new Date().getTime();
         }
     }
-
+    /**
+     * Checks if the chicks life is less than or equal to zero.
+     * @return {boolean} Returns true if the chicks life is less than or equal to zero, false otherwise.
+     */
     chicksDead() {
         if (this.chicksLife <= 0) {
             return true;
@@ -48,12 +66,19 @@ class MoveableObject extends DrawableObject {
             return false;
         }
     }
-
+    /**
+     * Checks if the object is currently hurt based on the time passed since the last hit.
+     * @return {boolean} Returns true if the object is currently hurt, false otherwise.
+     */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 500;
         return timepassed < 1;
     }
+    /**
+     * Determines if the object is dead.
+     * @return {boolean} Returns true if the object is dead, false otherwise.
+     */
     isDead() {
         if (this.energy <= 0) {
             return true;
@@ -61,13 +86,20 @@ class MoveableObject extends DrawableObject {
             return false;
         }
     }
+    /**
+     * Plays an animation using the provided images array.
+     * @param {Array} images - An array of image paths to play the animation.
+     */
     playAnimation(images) {
         let i = this.currentImg % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImg++;
     }
-
+    /**
+     * Plays an animation using the provided images array.
+     * @param {Array} images - An array of image paths to play the animation.
+     */
     playAnimationOnTime(images) {
         let i = this.currentImg % images.length;
         let path = images[i];
@@ -77,17 +109,32 @@ class MoveableObject extends DrawableObject {
             this.currentImg = 0;
         }
     }
-
+    /**
+     * Moves the object to the right by a specified speed.
+     * This function increments the x-coordinate of the object by the value of the speed property.
+     * @param {number} speed - The speed at which the object moves.
+     */
     moveRight() {
         this.x += this.speed;
     }
+    /**
+     * Moves the object to the left by a specified speed.
+     * This function decrements the x-coordinate of the object by the value of the speed property.
+     * @param {number} speed - The speed at which the object moves.
+     */
     moveLeft() {
         this.x -= this.speed;
     }
+    /**
+     * Sets the speedY property of the object to 40, simulating a jump.
+     */
     jump() {
         this.speedY = 40;
     }
-
+    /**
+     * Checks if the character is jumping based on its y-coordinate.
+     * @return {boolean} True if the character's y-coordinate is less than 150, false otherwise.
+     */
     isJumping() {
         this.character.y < 150;
     }

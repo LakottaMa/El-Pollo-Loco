@@ -41,4 +41,3 @@ class SmallChicken extends MoveableObject {
         }, 100);
     }
 }
-        

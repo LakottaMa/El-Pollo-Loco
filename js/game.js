@@ -12,17 +12,24 @@ let keyboard = new Keyboard();
 // let hurting_audio = new Audio('audio/.mp3');
 // let walking_audio = new Audio('audio/.mp3');
 // let throw_audio = new Audio('audio/.mp3');
+
 /**
  * Initializes the canvas and creates a new World instance.
  */
 function init() {
     canvas = document.getElementById("canvas");
     checkMobileDevice();
-    gameStart();
+    initStartScreen();
 }
-// Event Listener für Tastatureingaben
+/**
+ * Handles keydown and keyup events and updates the keyboard state accordingly.
+ */
 window.addEventListener("keydown", handleKeyDown);
 window.addEventListener("keyup", handleKeyUp);
+/**
+ * Handles the key down event and updates the keyboard state accordingly.
+ * @param {KeyboardEvent} event - The key down event object.
+ */
 function handleKeyDown(event) {
     if (event.key == "ArrowLeft") {
         keyboard.LEFT = true;
@@ -40,7 +47,11 @@ function handleKeyDown(event) {
         keyboard.SPACE = true;
     }
 }
-// Funktion zur Behandlung von Tastaturereignissen
+/**
+ * Handles the key up event and updates the keyboard state accordingly.
+ * @param {KeyboardEvent} event - The key up event object.
+ * @return {void} This function does not return anything.
+ */
 function handleKeyUp(event) {
     if (event.key == "ArrowLeft") {
         keyboard.LEFT = false;
@@ -58,7 +69,10 @@ function handleKeyUp(event) {
         keyboard.SPACE = false;
     }
 }
-// Funktion zur Behandlung von Button-Klicks
+/**
+ * Handles button clicks and updates the keyboard state based on the action.
+ * @param {string} action - The action triggered by the button click.
+ */
 function handleButtonClick(action) {
     switch (action) {
         case "left":
@@ -77,7 +91,9 @@ function handleButtonClick(action) {
             break;
     }
 }
-// Event Listener für Button-Klicks und Touch-Eingaben
+/**
+ * Add event listener to each mobile control button
+ */
 const controlButtons = document.querySelectorAll('.mobile-control-btn');
 controlButtons.forEach(button => {
     let action = button.textContent.toLowerCase();
@@ -86,7 +102,6 @@ controlButtons.forEach(button => {
         handleButtonClick(action);
         button.classList.add('active');
     }
-    // Funktion zur Behandlung der Aktionen bei Loslassen des Buttons
     function handleButtonRelease() {
         switch (action) {
             case "left":
@@ -106,10 +121,9 @@ controlButtons.forEach(button => {
         }
         button.classList.remove('active');
     }
-    // Event Listener für Maus-Klicks
+
     button.addEventListener('mousedown', handleButtonPress);
     button.addEventListener('mouseup', handleButtonRelease);
-    // Event Listener für Touch-Eingaben
     button.addEventListener('touchstart', function (event) {
         if (event.cancelable) event.preventDefault();
         handleButtonPress();
@@ -117,7 +131,6 @@ controlButtons.forEach(button => {
     button.addEventListener('touchend', function () {
         handleButtonRelease();
     });
-    // Event Listener für Touch-Abbruch
     button.addEventListener('touchcancel', function () {
         handleButtonRelease();
     });
@@ -177,6 +190,9 @@ function checkMobileDevice() {
 function isLandscapeOrientation() {
     return window.matchMedia("(orientation: landscape)").matches;
 }
+/**
+ * Starts the game by initializing elements, creating a new World instance, and handling game-over elements.
+ */
 function startingGame() {
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
@@ -189,12 +205,18 @@ function startingGame() {
         startElement.classList.add('d-none');
     }, 100);
 }
-function gameStart() {
+/**
+ * Initializes the game by hiding the canvas and showing the game start element.
+ */
+function initStartScreen() {
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
     canvasElement.classList.add('d-none');
     startElement.classList.remove('d-none');
 }
+/**
+ * Hides the canvas and controls elements, and shows the game over element.
+ */
 function gameOver() {
     clearAllIntervals();
     let canvasElement = document.querySelector('canvas');
@@ -203,9 +225,6 @@ function gameOver() {
     canvasElement.classList.add('d-none');
     controlsElement.classList.add('d-none');
     gameOverElement.classList.remove('d-none');
-}
-function clearAllIntervals() {
-    for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
 

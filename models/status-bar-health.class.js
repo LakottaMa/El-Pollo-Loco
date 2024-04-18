@@ -8,6 +8,9 @@ class HealthBar extends DrawableObject {
         './img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png'
     ];
     percentage = 100;
+    /**
+     * Initializes a new instance of the constructor function.
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);
@@ -17,11 +20,20 @@ class HealthBar extends DrawableObject {
         this.height = 60;
         this.setPercentage(100);
     }
+    /**
+     * Sets the percentage of the current object and updates the image accordingly.
+     * @param {number} percentage - The percentage to set the current object to.
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES[this.resolveImageIndex(percentage)];
         this.img = this.imageCache[path];
     }
+    /**
+     * Resolves the index of the image based on the given percentage.
+     * @param {number} percentage - The percentage to resolve the image index for.
+     * @return {number} The index of the image corresponding to the percentage.
+     */
     resolveImageIndex(percentage) {
         if (percentage == 100) {
             return 5;

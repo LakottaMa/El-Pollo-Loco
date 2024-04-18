@@ -45,8 +45,11 @@ class Endboss extends MoveableObject {
         '../img/4_enemie_boss_chicken/5_dead/G25.png',
         '../img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
-
     world;
+    /**
+     * Initializes a new instance of the Endboss class.
+     * @param {number} x - The x-coordinate of the Endboss instance.
+     */
     constructor(x) {
         super().loadImg(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -61,6 +64,6 @@ class Endboss extends MoveableObject {
         setInterval(() => {
             this.speed = 0;
             this.playAnimation(this.IMAGES_ALERT);
-        }, 180);
+        }, 1000 / 25);
     }
 }

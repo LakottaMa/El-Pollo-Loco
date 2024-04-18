@@ -13,6 +13,11 @@ class ThrowableObject extends MoveableObject {
         '../img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         '../img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
+    /**
+     * Constructor function for creating a ThrowableObject.
+     * @param {number} x - The x-coordinate of the ThrowableObject.
+     * @param {number} y - The y-coordinate of the ThrowableObject.
+     */
     constructor(x, y) {
         super().loadImg(this.THROW_BOTTLE_IMAGES[0]);
         this.loadImages(this.THROW_BOTTLE_IMAGES);
@@ -24,6 +29,10 @@ class ThrowableObject extends MoveableObject {
         this.throw();
         this.animateThrowBottle();
     }
+    /**
+     * Throws the object by setting its speedY to 25 and applying gravity.
+     * Moves the object to the right by 15 units every 25 milliseconds.
+     */
     throw() {
         this.speedY = 25;
         this.applyGravity();
@@ -31,6 +40,11 @@ class ThrowableObject extends MoveableObject {
             this.x += 15;
         },25);
     }
+    /**
+     * Animates the throwing of a bottle by playing an animation of the bottle rotating.
+     * This function uses the `setInterval` function to repeatedly call the `playAnimation` method of the current instance of `ThrowableObject`
+     * with the `THROW_BOTTLE_IMAGES` array as the argument. The animation is played every 60 milliseconds.
+     */
     animateThrowBottle() {
         setInterval(() => {
             this.playAnimation(this.THROW_BOTTLE_IMAGES);

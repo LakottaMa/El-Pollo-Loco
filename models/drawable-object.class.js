@@ -28,7 +28,7 @@ class DrawableObject {
     }
     /** ----- Rahmen zeichnen -----*/
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof SmallChicken || this instanceof Endboss || this instanceof Coins || this instanceof BottleOnGround) {       
+        if (this instanceof Character || this instanceof Chicken || this instanceof SmallChicken || this instanceof Endboss) {       
             ctx.beginPath();
             ctx.lineWidth = '1';
             ctx.strokeStyle = 'darkgray';

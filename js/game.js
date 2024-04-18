@@ -2,14 +2,23 @@ let canvas;
 let world;
 let isFullscreen = false;
 let keyboard = new Keyboard();
+// let background_audio = new Audio('audio/.mp3');
+// let jumping_audio = new Audio('audio/.mp3');
+// let game_over_audio = new Audio('audio/.mp3');
+// let dead_chicken_audio = new Audio('audio/.mp3');
+// let bottle_hit_audio = new Audio('audio/.mp3');
+// let coin_collect_audio = new Audio('audio/.mp3');
+// let collect_bottle_audio = new Audio('audio/.mp3');
+// let hurting_audio = new Audio('audio/.mp3');
+// let walking_audio = new Audio('audio/.mp3');
+// let throw_audio = new Audio('audio/.mp3');
 /**
  * Initializes the canvas and creates a new World instance.
  */
 function init() {
     canvas = document.getElementById("canvas");
-    world = new World(canvas, keyboard);
-    // checkMobileDevice();
-    // gameStart();
+    checkMobileDevice();
+    gameStart();
 }
 // Event Listener für Tastatureingaben
 window.addEventListener("keydown", handleKeyDown);
@@ -171,8 +180,14 @@ function isLandscapeOrientation() {
 function startingGame() {
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
-    canvasElement.classList.remove('d-none');
-    startElement.classList.add('d-none');
+    let gameOverElement = document.getElementById('game-over');
+    initLevel();
+    world = new World(canvas, keyboard);
+    gameOverElement.classList.add('d-none');
+    setTimeout(() => {
+        canvasElement.classList.remove('d-none');
+        startElement.classList.add('d-none');
+    }, 100);
 }
 function gameStart() {
     let canvasElement = document.querySelector('canvas');

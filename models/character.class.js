@@ -1,13 +1,13 @@
 class Character extends MoveableObject {
-    height = 600;
-    width = 280;
-    y = 60;
-    speed = 1.75;
+    height = 540;
+    width = 240;
+    y = 120;
+    speed = 1.5;
     offset = {
-        right: 80,
-        left: 70,
-        bottom: 30,
-        top: 280
+        right: 90,
+        left: 50,
+        bottom: 20,
+        top: 250
     };
     IMAGES_WALKING = [
         '../img/2_character_pepe/2_walk/W-21.png',
@@ -57,8 +57,9 @@ class Character extends MoveableObject {
         '../img/2_character_pepe/1_idle/idle/I-9.png',
         '../img/2_character_pepe/1_idle/idle/I-10.png'
     ];
+    world;
     constructor() {
-        super().loadImg(this.IMAGES_JUMPING[0]);
+        super().loadImg(this.IMAGES_IDLE[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
@@ -68,36 +69,86 @@ class Character extends MoveableObject {
         this.applyGravity();
         this.animate();
     }
+
     animate() {
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-                // walking sound
-            }
-            if (this.world.keyboard.LEFT && this.x > -1000) {
-                this.moveLeft();
-                this.otherDirection = true;
-                // walking sound
-            }
-            if (this.world.keyboard.UP && !this.isAboveGround()) {
-                this.jump();
-            }
-            this.world.camera_x = -this.x + 100;
+            this.moveCharacter();
         });
         setInterval(() => {
-            if (this.isDead()) {
-                gameOver();
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.x += this.speed;
-                this.playAnimation(this.IMAGES_WALKING);
-            } else {
-                this.playAnimation(this.IMAGES_IDLE);
-            }
-        }, 120);
+            this.playCharacter();
+        }, 160);
+    }
+    //----- move character -----
+    moveCharacter() {
+        if (this.canMoveRight()) {
+            this.moveRight();}
+        if (this.canMoveLeft()) {
+            this.moveLeft();}
+        if (this.canJump()) {
+            this.jump();}
+        this.world.camera_x = -this.x + 100;
+    }
+    canMoveRight() {
+        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+    }
+    moveRight() {
+        super.moveRight();
+        this.otherDirection = false;
+        // walking sound
+    }
+    canMoveLeft() {
+        return this.world.keyboard.LEFT && this.x > -1000;
+    }
+    moveLeft() {
+        super.moveLeft();
+        this.otherDirection = true;
+        // walking sound
+    }
+    canJump() {
+        return this.world.keyboard.UP && !this.isAboveGround();
+    }
+    jump() {
+            super.jump();
+            this.y = 120;
+    }
+//-----play animation -----
+    playCharacter() {
+        if (this.isDead()) {
+            this.playDeadAnimation();
+        } else if (this.isHurt()) {
+            this.playHurtAnimation();
+        } else if (this.isAboveGround()) {
+            this.playIsJumpingAnimation();
+        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.playMoveAnimation();
+        } else {
+            this.playIdleAnimation();
+        }
+    }
+    
+
+    playDeadAnimation() {
+        this.playAnimation(this.IMAGES_DEAD);
+        this.y += 30;
+        setTimeout(() => {
+            gameOver();
+        }, 1200);
+    }
+
+    playHurtAnimation() {
+        this.playAnimation(this.IMAGES_HURT);
+    }
+
+    playIsJumpingAnimation() {
+        this.playAnimationOnTime(this.IMAGES_JUMPING);
+    }
+
+    playMoveAnimation() {
+        this.x += this.speed;
+        this.playAnimation(this.IMAGES_WALKING);
+    }
+
+    playIdleAnimation() {
+        this.playAnimation(this.IMAGES_IDLE);
     }
 }

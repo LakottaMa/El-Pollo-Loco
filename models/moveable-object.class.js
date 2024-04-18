@@ -17,32 +17,41 @@ class MoveableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.accelerate;
             }
-        }, 1000 / 33);
+        }, 1000 / 60);
     }
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
         } else {
-            return this.y < 60;
+             return this.y < 120; 
         }
     }
     isColliding(mo) {
-        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left && // R -> L
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // B -> T
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right && // L -> R
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom; // T -> B
     }
     hit() {
-        this.energy -= 0;
+        this.energy -= 1;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();
         }
     }
+
+    chicksDead() {
+        if (this.chicksLife <= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
-        timepassed = timepassed / 200;
+        timepassed = timepassed / 500;
         return timepassed < 1;
     }
     isDead() {
@@ -58,6 +67,17 @@ class MoveableObject extends DrawableObject {
         this.img = this.imageCache[path];
         this.currentImg++;
     }
+
+    playAnimationOnTime(images) {
+        let i = this.currentImg % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImg++;
+        if (this.currentImg > images.length) {
+            this.currentImg = 0;
+        }
+    }
+
     moveRight() {
         this.x += this.speed;
     }
@@ -65,6 +85,10 @@ class MoveableObject extends DrawableObject {
         this.x -= this.speed;
     }
     jump() {
-        this.speedY = 36;
+        this.speedY = 40;
+    }
+
+    isJumping() {
+        this.character.y < 150;
     }
 }

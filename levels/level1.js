@@ -1,7 +1,5 @@
 let level1;
-// function initLevel() {
-//----- die function zum start btn deklarieren und aufrufen ----
-
+function initLevel() {
 level1 = new Level(
     [
         new SmallChicken(),
@@ -62,4 +60,4 @@ level1 = new Level(
         new BottleOnGround(2500)
     ]
 );
-// }
+}

@@ -1,5 +1,6 @@
 class MoveableObject extends DrawableObject {
     speed = 0.2;
+    deadSoundPlayed = false;
     otherDirection = false;
     speedY = 0;
     accelerate = 2.5;
@@ -20,7 +21,7 @@ class MoveableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.accelerate;
             }
-        }, 1000 / 60);
+        }, 1000 / 50);
     }
     /**
      * Checks if the object is above the ground.
@@ -48,22 +49,11 @@ class MoveableObject extends DrawableObject {
      * Decreases the energy of the object by 1 and updates the last hit time if the energy is greater than 0.
      */
     hit() {
-        this.energy -= 1;
+        this.energy -= 0;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();
-        }
-    }
-    /**
-     * Checks if the chicks life is less than or equal to zero.
-     * @return {boolean} Returns true if the chicks life is less than or equal to zero, false otherwise.
-     */
-    chicksDead() {
-        if (this.chicksLife <= 0) {
-            return true;
-        } else {
-            return false;
         }
     }
     /**

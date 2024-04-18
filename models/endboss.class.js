@@ -50,20 +50,20 @@ class Endboss extends MoveableObject {
      * Initializes a new instance of the Endboss class.
      * @param {number} x - The x-coordinate of the Endboss instance.
      */
-    constructor(x) {
+    constructor() {
         super().loadImg(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTAKING);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.x = x;
+        this.x = 3800;
         this.animate();
     }
     animate() {
         setInterval(() => {
             this.speed = 0;
             this.playAnimation(this.IMAGES_ALERT);
-        }, 1000 / 25);
+        }, 1000 / 10);
     }
 }

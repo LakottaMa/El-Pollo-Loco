@@ -1,6 +1,7 @@
 
 class World {
     character = new Character();
+    endboss = new Endboss();
     level = level1;
     bottleAmount = 0;
     coinsAmount = 0;
@@ -11,6 +12,7 @@ class World {
     coinsBar = new CoinsBar();
     bottleBar = new BottleBar();
     healthBar = new HealthBar();
+    HealthBarEndboss = new HealthBarEndboss();
     throwableObjects = [];
     /**
      * Initializes a new instance of the constructor function.
@@ -68,9 +70,8 @@ class World {
             if (this.character.isJumping &&
                 this.character.isColliding(enemy) &&
                 this.character.speedY < 0) {
-                enemy.enemyIsDead = false;
+                enemy.enemyIsDead = true;
             }
-            enemy.enemyIsDead = true;
         });
     }
     /**
@@ -81,6 +82,7 @@ class World {
         this.level.bottle.forEach((bottle) => {
             if (this.character.isColliding(bottle)) {
                 this.bottleAmount += 20;
+                collect_bottle_audio.play();
                 this.bottleBar.setPercentage(this.bottleAmount);
                 const bottleIndex = this.level.bottle.indexOf(bottle);
                 this.level.bottle.splice(bottleIndex, 1);
@@ -95,6 +97,9 @@ class World {
         this.level.coins.forEach((coins) => {
             if (this.character.isColliding(coins)) {
                 this.coinsAmount += 20;
+                collect_coin_audio.play();
+                collect_coin_audio.volume = 1;
+
                 this.coinsBar.setPercentage(this.coinsAmount);
                 const coinIndex = this.level.coins.indexOf(coins);
                 this.level.coins.splice(coinIndex, 1);
@@ -127,8 +132,13 @@ class World {
         this.addObjectToMap(this.level.coins);
         this.addObjectToMap(this.level.bottle);
         this.addToMap(this.character);
-        this.ctx.translate(-this.camera_x, 0);
+
         // ------ Space for fixed objects ------
+        this.ctx.translate(-this.camera_x, 0);
+        const distanceToBoss = Math.abs(this.character.x - this.endboss.x);
+        if (distanceToBoss < 800) {
+            this.addToMap(this.HealthBarEndboss);
+        }
         this.addToMap(this.healthBar);
         this.addToMap(this.coinsBar);
         this.addToMap(this.bottleBar);

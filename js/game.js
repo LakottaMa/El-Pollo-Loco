@@ -2,16 +2,17 @@ let canvas;
 let world;
 let isFullscreen = false;
 let keyboard = new Keyboard();
-// let background_audio = new Audio('audio/.mp3');
-// let jumping_audio = new Audio('audio/.mp3');
-// let game_over_audio = new Audio('audio/.mp3');
-// let dead_chicken_audio = new Audio('audio/.mp3');
-// let bottle_hit_audio = new Audio('audio/.mp3');
-// let coin_collect_audio = new Audio('audio/.mp3');
-// let collect_bottle_audio = new Audio('audio/.mp3');
-// let hurting_audio = new Audio('audio/.mp3');
-// let walking_audio = new Audio('audio/.mp3');
-// let throw_audio = new Audio('audio/.mp3');
+let background_audio = new Audio('./audio/background_music.mp3');
+let jumping_audio = new Audio('./audio/jumping.mp3');
+// let game_over_audio = new Audio('./audio/.mp3');
+let dead_chicken_audio = new Audio('./audio/chicken_death.mp3');
+let dead_chickenSmall_audio = new Audio('./audio/chicken_small_death.mp3');
+// let bottle_hit_audio = new Audio('./audio/.mp3');
+let collect_coin_audio = new Audio('./audio/collect_coin.mp3');
+let collect_bottle_audio = new Audio('./audio/collect_bottle.mp3');
+let hurting_audio = new Audio('./audio/hurting_character.mp3');
+let walking_audio = new Audio('./audio/walking.mp3');
+// let throw_audio = new Audio('./audio/.mp3');
 
 /**
  * Initializes the canvas and creates a new World instance.
@@ -20,6 +21,13 @@ function init() {
     canvas = document.getElementById("canvas");
     checkMobileDevice();
     initStartScreen();
+}
+
+function playBackgoundMusic() {
+    // Plays background music with reduced volume.
+    background_audio.play();
+    background_audio.volume = 0.2;
+    background_audio.loop = true;
 }
 /**
  * Handles keydown and keyup events and updates the keyboard state accordingly.
@@ -199,6 +207,7 @@ function startingGame() {
     let gameOverElement = document.getElementById('game-over');
     initLevel();
     world = new World(canvas, keyboard);
+    playBackgoundMusic();
     gameOverElement.classList.add('d-none');
     setTimeout(() => {
         canvasElement.classList.remove('d-none');

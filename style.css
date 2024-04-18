@@ -48,7 +48,7 @@ main {
 .top-bar {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 45%;
     gap: 24px;
     padding: 24px;
 }

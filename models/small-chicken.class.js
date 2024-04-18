@@ -6,7 +6,7 @@ class SmallChicken extends MoveableObject {
         right: 10,
         left: 10,
         bottom: 0,
-        top: -10
+        top: 0
     };
     IMAGES_WALKING = [
         '../img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -27,17 +27,32 @@ class SmallChicken extends MoveableObject {
 
         this.animate();
     }
-
     animate() {
+
         setInterval(() => {
-            if (!this.enemyIsDead) {
-                this.moveLeft();
-                this.playAnimation(this.IMAGES_WALKING);
-            }
-            if (this.enemyIsDead) {
-                this.loadImg(this.DEAD_IMAGES);
-                this.y += 70;
-            }
+            this.moveChicken();
         }, 100);
+
+        setInterval(() => {
+            this.animateChicken();
+        }, 100);
+    }
+
+    moveChicken() {
+        if (!this.enemyIsDead) {
+            this.moveLeft();
+            this.playAnimation(this.IMAGES_WALKING);
+        }
+    }
+
+    animateChicken() {
+        if (this.enemyIsDead && !this.deadSoundPlayed) {
+            this.loadImg(this.DEAD_IMAGES);
+            this.y += 20;
+            this.offset.top = 72;
+            dead_chicken_audio.currentTime = 0;
+            dead_chickenSmall_audio.play();
+            this.deadSoundPlayed = true;
+        }
     }
 }

@@ -1,12 +1,12 @@
 class Character extends MoveableObject {
     height = 540;
     width = 240;
-    y = 120;
+    y = 130;
     speed = 1.5;
     offset = {
         right: 90,
         left: 50,
-        bottom: 20,
+        bottom: 30,
         top: 250
     };
     IMAGES_WALKING = [
@@ -69,7 +69,6 @@ class Character extends MoveableObject {
         this.applyGravity();
         this.animate();
     }
-
     animate() {
         setInterval(() => {
             this.moveCharacter();
@@ -94,7 +93,6 @@ class Character extends MoveableObject {
     moveRight() {
         super.moveRight();
         this.otherDirection = false;
-        // walking sound
     }
     canMoveLeft() {
         return this.world.keyboard.LEFT && this.x > -1000;
@@ -102,7 +100,6 @@ class Character extends MoveableObject {
     moveLeft() {
         super.moveLeft();
         this.otherDirection = true;
-        // walking sound
     }
     canJump() {
         return this.world.keyboard.UP && !this.isAboveGround();
@@ -124,9 +121,7 @@ class Character extends MoveableObject {
         } else {
             this.playIdleAnimation();
         }
-    }
-    
-
+    }    
     playDeadAnimation() {
         this.playAnimation(this.IMAGES_DEAD);
         this.y += 30;
@@ -134,20 +129,18 @@ class Character extends MoveableObject {
             gameOver();
         }, 1200);
     }
-
     playHurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
     }
-
     playIsJumpingAnimation() {
         this.playAnimationOnTime(this.IMAGES_JUMPING);
+        jumping_audio.play();
     }
-
     playMoveAnimation() {
         this.x += this.speed;
         this.playAnimation(this.IMAGES_WALKING);
+        walking_audio.play();
     }
-
     playIdleAnimation() {
         this.playAnimation(this.IMAGES_IDLE);
     }

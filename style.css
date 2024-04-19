@@ -48,8 +48,10 @@ main {
 .top-bar {
     position: absolute;
     top: 0;
-    left: 45%;
-    gap: 24px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
     padding: 24px;
 }
 
@@ -151,7 +153,6 @@ canvas {
 .sound-toggle-btn {
     width: calc(16px + 2vmin);
     height: calc(16px + 2vmin);
-    margin: 0 12px;
     background-image: url(./img/icons/sound_on_64.png);
     background-size: cover;
     background-repeat: no-repeat;
@@ -164,6 +165,10 @@ canvas {
     &:hover {
         transform: scale(1.1);
     }
+}
+
+.volume-slider {
+    width: 100px;
 }
 
 

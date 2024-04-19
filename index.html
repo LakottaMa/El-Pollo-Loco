@@ -13,8 +13,9 @@
     <main id="fullScreen">
         <div id="top-bar" class="top-bar">
             <button id="startGame" class="start-btn" onclick="startingGame()"></button>
-            <button class="sound-toggle-btn" id="soundToggle"></button>
-            <button class="fullscreen-btn" id="fullscreenButton"></button>
+            <button class="sound-toggle-btn" id="soundToggle" onclick="toggleSound()"></button>
+            <input type="range" id="volumeSlider" class="volume-slider d-none" min="0" max="100" value="20" onchange="changeVolume(this.value)">
+            <button class="fullscreen-btn" id="fullscreenButton"></button>            
         </div>
         <canvas id="canvas" width="1280px" height="720px"></canvas>
         <div id="game-container-state" class="game-container-state">

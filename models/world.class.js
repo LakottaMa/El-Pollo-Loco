@@ -98,8 +98,6 @@ class World {
             if (this.character.isColliding(coins)) {
                 this.coinsAmount += 20;
                 collect_coin_audio.play();
-                collect_coin_audio.volume = 1;
-
                 this.coinsBar.setPercentage(this.coinsAmount);
                 const coinIndex = this.level.coins.indexOf(coins);
                 this.level.coins.splice(coinIndex, 1);

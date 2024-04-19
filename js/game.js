@@ -1,19 +1,33 @@
 let canvas;
 let world;
 let isFullscreen = false;
+let isMuted = false;
 let keyboard = new Keyboard();
 let background_audio = new Audio('./audio/background_music.mp3');
 let jumping_audio = new Audio('./audio/jumping.mp3');
-// let game_over_audio = new Audio('./audio/.mp3');
+let game_over_audio = new Audio('./audio/game_over.mp3');
 let dead_chicken_audio = new Audio('./audio/chicken_death.mp3');
 let dead_chickenSmall_audio = new Audio('./audio/chicken_small_death.mp3');
-// let bottle_hit_audio = new Audio('./audio/.mp3');
+let dead_character_audio = new Audio('./audio/lose_falling.mp3');
+// let bottle_hit_audio = new Audio('./audio/thrown_bottle.mp3');
 let collect_coin_audio = new Audio('./audio/collect_coin.mp3');
 let collect_bottle_audio = new Audio('./audio/collect_bottle.mp3');
-let hurting_audio = new Audio('./audio/hurting_character.mp3');
+let hurting_character_audio = new Audio('./audio/hurting_character.mp3');
 let walking_audio = new Audio('./audio/walking.mp3');
-// let throw_audio = new Audio('./audio/.mp3');
-
+let throw_audio = new Audio('./audio/throw_bottle.mp3');
+let soundEffects = [
+    background_audio,
+    jumping_audio,
+    game_over_audio,
+    dead_chicken_audio,
+    dead_chickenSmall_audio,
+    dead_character_audio,
+    walking_audio,
+    throw_audio,
+    collect_coin_audio,
+    collect_bottle_audio,
+    hurting_character_audio
+];
 /**
  * Initializes the canvas and creates a new World instance.
  */
@@ -21,12 +35,58 @@ function init() {
     canvas = document.getElementById("canvas");
     checkMobileDevice();
     initStartScreen();
+    soundMutedOnload();
+    initVolume();
+}
+/**
+ * Initializes the sound state on page load.
+ */
+function soundMutedOnload() {
+    toggleSound(!isMuted);
+}
+/**
+ * Toggles the sound on and off based on the current mute state.
+ */
+function toggleSound() {
+    volumeSlider.classList.remove('d-none');
+    let BtnAudioToggle = document.getElementById('soundToggle');
+    if (isMuted) {
+        BtnAudioToggle.style.backgroundImage = 'url(./img/icons/sound_on_64.png)';
+        for (let audio of soundEffects) {
+            audio.muted = false;
+        }
+        playBackgroundMusic();
+        isMuted = false;
+    } else {
+        volumeSlider.classList.add('d-none');
+        BtnAudioToggle.style.backgroundImage = 'url(./img/icons/sound_off_64.png)';
+        for (let audio of soundEffects) {
+            audio.muted = true;
+        }
+        isMuted = true;
+    }
+    volumeSlider.blur();
+}
+/**
+ * Changes the volume of all sound effects.
+ * @param {number} volume - The new volume value (between 0 and 100).
+ */
+function changeVolume(volume) {
+    let normalizedVolume = volume / 100;
+    for (let audio of soundEffects) {
+        audio.volume = normalizedVolume;
+    }
+}
+function initVolume() {
+    let volumeSlider = document.getElementById('volumeSlider');
+    changeVolume(volumeSlider.value);
 }
 
-function playBackgoundMusic() {
-    // Plays background music with reduced volume.
+/**
+ * Plays the background music with a reduced volume and set to loop.
+ */
+function playBackgroundMusic() {
     background_audio.play();
-    background_audio.volume = 0.2;
     background_audio.loop = true;
 }
 /**
@@ -143,7 +203,6 @@ controlButtons.forEach(button => {
         handleButtonRelease();
     });
 });
-
 /**
  * Add event listener to the fullscreen button
  */
@@ -207,7 +266,6 @@ function startingGame() {
     let gameOverElement = document.getElementById('game-over');
     initLevel();
     world = new World(canvas, keyboard);
-    playBackgoundMusic();
     gameOverElement.classList.add('d-none');
     setTimeout(() => {
         canvasElement.classList.remove('d-none');

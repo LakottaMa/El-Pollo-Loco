@@ -40,9 +40,9 @@ h1 {
 main {
     position: relative;
     display: flex;
-    flex-direction: column;
     max-width: 1280px;
     max-height: 720px;
+    margin: 0 12px;
 }
 
 .top-bar {
@@ -52,13 +52,13 @@ main {
     display: flex;
     justify-content: center;
     gap: 16px;
-    padding: 24px;
+    padding-top: 24px;
 }
 
 canvas {
     display: block;
     border-radius: 12px;
-    max-width: 100%;
+    max-width: 98%;
     max-height: 100%;
     border: 1px solid rgba(139, 139, 139, 0.5);
     background-color: black;
@@ -116,10 +116,9 @@ canvas {
     border-radius: 18px;
 }
 
-.start-btn {
+.top-btn {
     width: calc(16px + 2vmin);
     height: calc(16px + 2vmin);
-    background-image: url(./img/icons/play_64.png);
     background-size: cover;
     background-repeat: no-repeat;
     border: 1px solid rgb(230, 230, 230, 0);
@@ -127,58 +126,47 @@ canvas {
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-
     &:hover {
         transform: scale(1.1);
     }
+}
+
+.start-btn {
+    background-image: url(./img/icons/play_64.png);
 }
 
 .fullscreen-btn {
-    width: calc(16px + 2vmin);
-    height: calc(16px + 2vmin);
     background-image: url(./img/icons/fullscreen_64.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    border: 2px solid rgb(230, 230, 230, 0);
-    background-color: rgb(230, 230, 230, 0.5);
     border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-        transform: scale(1.1);
-    }
+    border: 4px solid rgb(230, 230, 230, 0);
 }
 
 .sound-toggle-btn {
-    width: calc(16px + 2vmin);
-    height: calc(16px + 2vmin);
     background-image: url(./img/icons/sound_on_64.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    border: 1px solid rgb(230, 230, 230, 0);
-    background-color: rgb(230, 230, 230, 0.5);
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+}
 
-    &:hover {
-        transform: scale(1.1);
-    }
+.info-btn {
+    background-image: url(./img/icons/info.png);
 }
 
 .volume-slider {
     width: 100px;
 }
 
-
 @media screen and (max-width: 1280px) {
     h1 {
         display: none !important;
     }
+    .top-bar {
+        padding-top: 12px;
+    }
 }
 
-/* @media screen and (max-height: 430px) {
-    .game-over img, .game-win img, .game-start img {
+@media screen and (max-height: 480px) {
+    canvas, main, .game-container-state, .game-over img, .game-win img, .game-start img {
         height: 97dvh !important;
-    } */
+    }
+    .top-bar {
+        padding: 12px 0;
+    }
+}

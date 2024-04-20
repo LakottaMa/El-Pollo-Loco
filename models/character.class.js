@@ -124,13 +124,15 @@ class Character extends MoveableObject {
     }    
     playDeadAnimation() {
         this.playAnimation(this.IMAGES_DEAD);
-        this.y += 30;
+        this.y += 40;
+        dead_character_audio.play();
         setTimeout(() => {
             gameOver();
         }, 1200);
     }
     playHurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
+        hurting_character_audio.play();
     }
     playIsJumpingAnimation() {
         this.playAnimationOnTime(this.IMAGES_JUMPING);

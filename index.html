@@ -12,11 +12,12 @@
     <h1>El Pollo Loco</h1>
     <main id="fullScreen">
         <div id="top-bar" class="top-bar">
-            <button id="startGame" class="start-btn top-btn" onclick="startingGame()"></button>
-            <button class="sound-toggle-btn top-btn" id="soundToggle" onclick="toggleSound()"></button>
-            <input type="range" id="volumeSlider" class="volume-slider top-btn d-none" min="0" max="100" value="20" onchange="changeVolume(this.value)">
-            <button class="info-btn top-btn" id="infoButton"></button>
-            <button class="fullscreen-btn top-btn" id="fullscreenButton"></button>            
+            <button id="startScreenBtn" class="home-btn top-btn button d-none" onclick="backStartScreen()"></button>
+            <button id="startGame" class="start-btn top-btn button" onclick="startingGame()"></button>
+            <button class="sound-toggle-btn top-btn button" id="soundToggle" onclick="toggleSound()"></button>
+            <input type="range" id="volumeSlider" class="volume-slider d-none button" min="0" max="100" value="20" onchange="changeVolume(this.value)">
+            <button class="info-btn top-btn button" id="infoButton"></button>
+            <button class="fullscreen-btn top-btn button" id="fullscreenButton"></button>            
         </div>
         <canvas id="canvas" width="1280px" height="720px"></canvas>
         <div id="game-container-state" class="game-container-state">
@@ -29,12 +30,12 @@
         </div>
         <div id="mobile-controls" class="mobile-controls d-none">
             <div>
-                <button class="mobile-control-btn">left<img src="./img/icons/left_64.png" alt="Left arrow icon"></button>
-                <button class="mobile-control-btn">right<img src="./img/icons/right_64.png" alt="Right arrow icon"></button>
+                <button class="mobile-control-btn button">left<img src="./img/icons/left_64.png" alt="Left arrow icon"></button>
+                <button class="mobile-control-btn button">right<img src="./img/icons/right_64.png" alt="Right arrow icon"></button>
             </div>
             <div>
-                <button class="mobile-control-btn">jump<img src="./img/icons/jump_64.png" alt="Jump icon"></button>
-                <button class="mobile-control-btn">shoot<img src="./img/icons/shoot_64.png" alt="Shoot icon"></button>
+                <button class="mobile-control-btn button">jump<img src="./img/icons/jump_64.png" alt="Jump icon"></button>
+                <button class="mobile-control-btn button">shoot<img src="./img/icons/shoot_64.png" alt="Shoot icon"></button>
             </div>
         </div>
     </main>

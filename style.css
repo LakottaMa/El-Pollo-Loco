@@ -126,9 +126,14 @@ canvas {
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+
     &:hover {
         transform: scale(1.1);
     }
+}
+
+.home-btn {
+    background-image: url(./img/icons/home.png);
 }
 
 .start-btn {
@@ -157,15 +162,23 @@ canvas {
     h1 {
         display: none !important;
     }
+
     .top-bar {
         padding-top: 12px;
     }
 }
 
 @media screen and (max-height: 480px) {
-    canvas, main, .game-container-state, .game-over img, .game-win img, .game-start img {
+
+    canvas,
+    main,
+    .game-container-state,
+    .game-over img,
+    .game-win img,
+    .game-start img {
         height: 97dvh !important;
     }
+
     .top-bar {
         padding: 12px 0;
     }

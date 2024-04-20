@@ -2,6 +2,10 @@ let canvas;
 let world;
 let isFullscreen = false;
 let keyboard = new Keyboard();
+let restartBtn = document.getElementById("startGame");
+let startScreenBtn = document.getElementById('startScreenBtn');
+let gameOverElement = document.getElementById('game-over');
+
 /**
  * Initializes the canvas and creates a new World instance.
  */
@@ -184,25 +188,31 @@ function isLandscapeOrientation() {
  * Starts the game by initializing elements, creating a new World instance, and handling game-over elements.
  */
 function startingGame() {
+    restartBtn.style.backgroundImage = 'url(./img/icons/restart.png)';
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
     let gameOverElement = document.getElementById('game-over');
+    startScreenBtn.classList.remove('d-none');
     initLevel();
     world = new World(canvas, keyboard);
-    gameOverElement.classList.add('d-none');
     setTimeout(() => {
+        gameOverElement.classList.add('d-none');
         canvasElement.classList.remove('d-none');
         startElement.classList.add('d-none');
-    }, 100);
+    }, 200);
 }
-/**
- * Initializes the game by hiding the canvas and showing the game start element.
- */
 function initStartScreen() {
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
     canvasElement.classList.add('d-none');
     startElement.classList.remove('d-none');
+}
+function backStartScreen() {
+    initStartScreen();
+    startScreenBtn.classList.add('d-none');
+    restartBtn.style.backgroundImage = 'url(./img/icons/play_64.png)';
+    gameOverElement.classList.add('d-none');
+    clearAllIntervals();
 }
 /**
  * Hides the canvas and controls elements, and shows the game over element.
@@ -216,9 +226,19 @@ function gameOver() {
     gameOverElement.classList.remove('d-none');
     clearAllIntervals();
 }
-
+/**
+ * Clears all intervals up to 99999.
+ */
 function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
+
+/** Removes the focus from the clicked button */
+let buttons = document.querySelectorAll('.button');
+buttons.forEach(function(button) {
+  button.addEventListener('click', function() {
+    this.blur(); 
+  });
+});
 
 

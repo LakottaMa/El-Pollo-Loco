@@ -29,16 +29,26 @@ class ThrowableObject extends MoveableObject {
         this.throw();
         this.animateThrowBottle();
     }
-    /**
-     * Throws the object by setting its speedY to 25 and applying gravity.
-     * Moves the object to the right by 15 units every 25 milliseconds.
-     */
     throw() {
-        this.speedY = 25;
+        if (!this.otherDirection) {
+            this.throwRight();
+        } else if (this.otherDirection) {
+            this.throwLeft();
+        }
+    }
+    throwRight() {
+        this.speedY = 40;
         this.applyGravity();
         setInterval(() => {
-            this.x += 15;
-        },25);
+            this.x += 25;
+        }, 35);
+    }
+    throwLeft() {
+        this.speedY = 40;
+        this.applyGravity();
+        setInterval(() => {
+            this.x -= 25;
+        }, 35);
     }
     /**
      * Animates the throwing of a bottle by playing an animation of the bottle rotating.

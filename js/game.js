@@ -5,6 +5,8 @@ let keyboard = new Keyboard();
 let restartBtn = document.getElementById("startGame");
 let startScreenBtn = document.getElementById('startScreenBtn');
 let gameOverElement = document.getElementById('game-over');
+let victoryElement = document.getElementById('game-victory');
+
 
 /**
  * Initializes the canvas and creates a new World instance.
@@ -116,7 +118,6 @@ controlButtons.forEach(button => {
         }
         button.classList.remove('active');
     }
-
     button.addEventListener('mousedown', handleButtonPress);
     button.addEventListener('mouseup', handleButtonRelease);
     button.addEventListener('touchstart', function (event) {
@@ -192,12 +193,13 @@ function startingGame() {
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
     let gameOverElement = document.getElementById('game-over');
-    startScreenBtn.classList.remove('d-none');
+    clearAllIntervals();
     initLevel();
     world = new World(canvas, keyboard);
     setTimeout(() => {
-        gameOverElement.classList.add('d-none');
+        startScreenBtn.classList.remove('d-none');
         canvasElement.classList.remove('d-none');
+        gameOverElement.classList.add('d-none');
         startElement.classList.add('d-none');
     }, 200);
 }
@@ -212,6 +214,7 @@ function backStartScreen() {
     startScreenBtn.classList.add('d-none');
     restartBtn.style.backgroundImage = 'url(./img/icons/play_64.png)';
     gameOverElement.classList.add('d-none');
+    victoryElement.classList.add('d-none');
     clearAllIntervals();
 }
 /**
@@ -226,19 +229,29 @@ function gameOver() {
     gameOverElement.classList.remove('d-none');
     clearAllIntervals();
 }
+
+function gameVictory() {
+    let canvasElement = document.querySelector('canvas');
+    let controlsElement = document.getElementById('mobile-controls');
+    let victoryElement = document.getElementById('game-victory');
+    canvasElement.classList.add('d-none');
+    controlsElement.classList.add('d-none');
+    victoryElement.classList.remove('d-none');
+    clearAllIntervals();
+}
+
 /**
  * Clears all intervals up to 99999.
  */
 function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
-
 /** Removes the focus from the clicked button */
 let buttons = document.querySelectorAll('.button');
-buttons.forEach(function(button) {
-  button.addEventListener('click', function() {
-    this.blur(); 
-  });
+buttons.forEach(function (button) {
+    button.addEventListener('click', function () {
+        this.blur();
+    });
 });
 
 

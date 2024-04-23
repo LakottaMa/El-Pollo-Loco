@@ -11,8 +11,7 @@ level1 = new Level(
         new Chicken(),
         new Chicken(),
         new Chicken(),
-        new Chicken(),
-        new Endboss()
+        new Chicken()
     ],
     [
         new Cloud('../img/5_background/layers/4_clouds/1.png'),
@@ -52,12 +51,23 @@ level1 = new Level(
         new Coins(1500),
         new Coins(2300)
     ],
-    [
-        new BottleOnGround(280),
+    [   
+        new BottleOnGround(-300),
+        new BottleOnGround(-500),
+        new BottleOnGround(-700),
+        new BottleOnGround(-900),
+        new BottleOnGround(-1000),
+        new BottleOnGround(120),
+        new BottleOnGround(150),
+        new BottleOnGround(250),
+        new BottleOnGround(380),
         new BottleOnGround(580),
         new BottleOnGround(1200),
         new BottleOnGround(1800),
-        new BottleOnGround(2500)
+        new BottleOnGround(2000),
+        new BottleOnGround(2100),
+        new BottleOnGround(2200),
+        new BottleOnGround(2300)
     ]
 );
 }

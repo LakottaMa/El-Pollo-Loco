@@ -3,8 +3,8 @@ class Chicken extends MoveableObject {
     width = 100;
     y = 530;
     offset = {
-        right: 0,
-        left: 0,
+        right: 25,
+        left: 25,
         bottom: 0,
         top: 0
     };
@@ -35,7 +35,7 @@ class Chicken extends MoveableObject {
 
         setInterval(() => {
             this.animateChicken();
-        },1);
+        },10);
     }
 
     moveChicken() {

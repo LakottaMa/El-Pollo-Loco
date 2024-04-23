@@ -9,11 +9,12 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    hasHitEndboss = false;
     coinsBar = new CoinsBar();
     bottleBar = new BottleBar();
     healthBar = new HealthBar();
     HealthBarEndboss = new HealthBarEndboss();
-    throwableObjects = [];
+    throwableObjects = [new ThrowableObject()];
     /**
      * Initializes a new instance of the constructor function.
      * @param {Object} canvas - The canvas element to be used for rendering.
@@ -45,10 +46,14 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObject();
+            this.checkEndbossCollisions();
+        }, 160);
+        setInterval(() => {
             this.checkCollectableBottle();
             this.checkCollectableCoins();
             this.checkCollisionFromAboveOnChicks();
-        }, 10);
+            this.checkDistanceToBoss();
+        }, 1);
     }
     /**
      * Checks for collisions between the character and enemies in the level.
@@ -56,9 +61,17 @@ class World {
      */
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) || this.character.isColliding(this.endboss)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
+            }
+        });
+    }
+    checkEndbossCollisions() {
+        this.throwableObjects.forEach((bottle) => {
+            if (bottle.isColliding(this.endboss)) {
+                this.endboss.hitEndBoss();
+                this.HealthBarEndboss.setPercentage(this.endboss.bossEnergy);
             }
         });
     }
@@ -67,25 +80,13 @@ class World {
      */
     checkCollisionFromAboveOnChicks() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isJumping &&
+            if (this.character.isAboveGround() &&
                 this.character.isColliding(enemy) &&
                 this.character.speedY < 0) {
                 enemy.enemyIsDead = true;
-            }
-        });
-    }
-    /**
-     * Checks if the character is colliding with any bottles in the level
-     * and updates the bottle amount and bottle bar percentage accordingly.
-     */
-    checkCollectableBottle() {
-        this.level.bottle.forEach((bottle) => {
-            if (this.character.isColliding(bottle)) {
-                this.bottleAmount += 20;
-                collect_bottle_audio.play();
-                this.bottleBar.setPercentage(this.bottleAmount);
-                const bottleIndex = this.level.bottle.indexOf(bottle);
-                this.level.bottle.splice(bottleIndex, 1);
+                setTimeout(() => {
+                    enemy.y += 150;
+                }, 1000);
             }
         });
     }
@@ -105,13 +106,42 @@ class World {
         });
     }
     /**
+     * Checks if the character is colliding with any bottles in the level
+     * and updates the bottle amount and bottle bar percentage accordingly.
+     */
+    checkCollectableBottle() {
+        this.level.bottle.forEach((bottle) => {
+            if (this.character.isColliding(bottle) && this.bottleAmount < 100) {
+                this.bottleAmount += 20;
+                collect_bottle_audio.play();
+                this.bottleBar.setPercentage(this.bottleAmount);
+                const bottleIndex = this.level.bottle.indexOf(bottle);
+                this.level.bottle.splice(bottleIndex, 1);
+            }
+        });
+    }
+    /**
      * Checks if the space key is pressed and throws a bottle object accordingly.
      */
     checkThrowObject() {
-        if (this.keyboard.SPACE) {
+        if (this.keyboard.SPACE && this.bottleAmount > 0) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 300);
             this.throwableObjects.push(bottle);
+            this.bottleAmount -= 20;
+            throw_audio.play();
+            this.bottleBar.setPercentage(this.bottleAmount);
         }
+    }
+    /**
+     * Checks the distance to the boss, logs it and the result of the condition,
+     * and adds the HealthBarEndboss to the map if the distance is less than 800.
+     */
+    checkDistanceToBoss() {
+        let distanceToBoss = Math.abs(this.character.x - this.endboss.x);
+        if (distanceToBoss < 1000) {
+            this.addToMap(this.HealthBarEndboss);
+        }
+        return distanceToBoss;
     }
     /**
      * Draws the game world on the canvas by clearing the canvas, translating the context to the camera position,
@@ -126,22 +156,17 @@ class World {
         this.addObjectToMap(this.level.backgroundObjects);
         this.addObjectToMap(this.throwableObjects);
         this.addObjectToMap(this.level.clouds);
+        this.addToMap(this.endboss);
         this.addObjectToMap(this.level.enemies);
         this.addObjectToMap(this.level.coins);
         this.addObjectToMap(this.level.bottle);
         this.addToMap(this.character);
-
-        // ------ Space for fixed objects ------
         this.ctx.translate(-this.camera_x, 0);
-        const distanceToBoss = Math.abs(this.character.x - this.endboss.x);
-        if (distanceToBoss < 800) {
-            this.addToMap(this.HealthBarEndboss);
-        }
+        this.checkDistanceToBoss();
         this.addToMap(this.healthBar);
         this.addToMap(this.coinsBar);
         this.addToMap(this.bottleBar);
         this.ctx.translate(this.camera_x, 0);
-        // --------------------------------------        
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(function () {
@@ -167,7 +192,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

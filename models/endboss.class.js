@@ -1,13 +1,13 @@
 class Endboss extends MoveableObject {
-    height = 608;
-    width = 522;
-    y = 70;
-    x = 680;
+    height = 406;
+    width = 348;
+    y = 250;
+    speed = 8;
     offset = {
-        right: 20,
-        left: 50,
-        bottom: 0,
-        top: 100
+        right: 45,
+        left: 70,
+        bottom: 90,
+        top: 80
     };
     IMAGES_WALKING = [
         '../img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -62,8 +62,57 @@ class Endboss extends MoveableObject {
     }
     animate() {
         setInterval(() => {
-            this.speed = 0;
+            if (this.EndbossIsDead()) {
+                this.playDeadAnimation();
+            } else if (this.isHurtEndboss()) {
+                bottle_hit_audio.play();
+                this.playAnimation(this.IMAGES_HURT);
+                boss_hurting_audio.play();
+            } else {
+                this.isMove();
+            }
+        }, 160);
+        setInterval(() => {
+            this.isAttacking();
+        }, 100);
+    }
+    isAttacking() {
+        if (world.checkDistanceToBoss() < 300) {
+            boss_attack_audio.play();
+            this.playAnimation(this.IMAGES_ATTAKING);
+            this.speed = 25;
+            this.offset = {
+                right: 45,
+                left: -100,
+                bottom: 90,
+                top: 80
+            };
+        } else {
+            this.speed = 8;
+            this.offset = {
+                right: 45,
+                left: 70,
+                bottom: 90,
+                top: 80
+            };
+        }
+    }
+    isMove() {
+        if (world.checkDistanceToBoss() <= 850) {
+            this.playAnimation(this.IMAGES_WALKING);
+            this.x -= this.speed;
+        } else if (world.checkDistanceToBoss() < 1000) {
+            boss_attack_audio.play();
             this.playAnimation(this.IMAGES_ALERT);
-        }, 1000 / 10);
+        }
+    }
+    playDeadAnimation() {
+        this.playAnimation(this.IMAGES_DEAD);
+        boss_death_audio.play();
+        this.y += 60;
+        setTimeout(() => {
+            gameVictory();
+            game_victory_audio.play();
+        }, 1200);
     }
 }

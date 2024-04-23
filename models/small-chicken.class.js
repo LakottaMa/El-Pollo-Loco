@@ -1,10 +1,10 @@
 class SmallChicken extends MoveableObject {
-    height = 72;
-    width = 72;
+    height = 75;
+    width = 75;
     y = 555;
     offset = {
-        right: 10,
-        left: 10,
+        right: 25,
+        left: 25,
         bottom: 0,
         top: 0
     };
@@ -24,27 +24,22 @@ class SmallChicken extends MoveableObject {
         this.x = 800 + Math.random() * 3400;
         this.speed = 2 + Math.random() * 10;
         this.applyGravity();
-
         this.animate();
     }
     animate() {
-
         setInterval(() => {
             this.moveChicken();
         }, 100);
-
         setInterval(() => {
             this.animateChicken();
         }, 100);
     }
-
     moveChicken() {
         if (!this.enemyIsDead) {
             this.moveLeft();
             this.playAnimation(this.IMAGES_WALKING);
         }
     }
-
     animateChicken() {
         if (this.enemyIsDead && !this.deadSoundPlayed) {
             this.loadImg(this.DEAD_IMAGES);

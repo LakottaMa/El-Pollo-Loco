@@ -42,17 +42,17 @@ class DrawableObject {
      * Draws a frame around the object if it is an instance of Character, Chicken, SmallChicken, or Endboss.
      * @param {CanvasRenderingContext2D} ctx - The canvas rendering context to draw on.
      */
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Endboss) {       
-            ctx.beginPath();
-            ctx.lineWidth = '1';
-            ctx.strokeStyle = 'darkgray';
-            ctx.rect(
-                this.x + this.offset.left,
-                this.y + this.offset.top,
-                this.width - this.offset.right - this.offset.left,
-                this.height - this.offset.bottom - this.offset.top);
-            ctx.stroke();
-        }
-    }    
+    // drawFrame(ctx) {
+    //     if (this instanceof Character || this instanceof Endboss || this instanceof Chicken || this instanceof SmallChicken) {     
+    //         ctx.beginPath();
+    //         ctx.lineWidth = '1';
+    //         ctx.strokeStyle = 'red';
+    //         ctx.rect(
+    //             this.x + this.offset.left,
+    //             this.y + this.offset.top,
+    //             this.width - this.offset.right - this.offset.left,
+    //             this.height - this.offset.bottom - this.offset.top);
+    //         ctx.stroke();
+    //     }
+    // }    
 }

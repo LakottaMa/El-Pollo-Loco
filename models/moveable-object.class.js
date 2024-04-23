@@ -4,8 +4,10 @@ class MoveableObject extends DrawableObject {
     otherDirection = false;
     speedY = 0;
     accelerate = 2.5;
+    bossEnergy = 100;
     energy = 100;
     lastHit = 0;
+    lastHitEndBoss = 0;
     offset = {
         top: 0,
         left: 0,
@@ -21,7 +23,7 @@ class MoveableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.accelerate;
             }
-        }, 1000 / 50);
+        }, 1000 / 40);
     }
     /**
      * Checks if the object is above the ground.
@@ -31,7 +33,7 @@ class MoveableObject extends DrawableObject {
         if (this instanceof ThrowableObject) {
             return true;
         } else {
-             return this.y < 120; 
+             return this.y < 110; 
         }
     }
     /**
@@ -56,13 +58,28 @@ class MoveableObject extends DrawableObject {
             this.lastHit = new Date().getTime();
         }
     }
+    hitEndBoss() {
+        console.log(`Hit, current bossEnergy: ${this.bossEnergy}`);
+        this.bossEnergy -= 20;
+        console.log(`After hit bossEnergy: ${this.bossEnergy}`);
+        if (this.bossEnergy < 0) {
+            this.bossEnergy = 0;
+        } else {
+            this.lastHitEndBoss = new Date().getTime();
+        }
+    }
     /**
      * Checks if the object is currently hurt based on the time passed since the last hit.
      * @return {boolean} Returns true if the object is currently hurt, false otherwise.
      */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
-        timepassed = timepassed / 500;
+        timepassed = timepassed / 400;
+        return timepassed < 1;
+    }
+    isHurtEndboss() {
+        let timepassed = new Date().getTime() - this.lastHitEndBoss;
+        timepassed = timepassed / 400;
         return timepassed < 1;
     }
     /**
@@ -71,6 +88,13 @@ class MoveableObject extends DrawableObject {
      */
     isDead() {
         if (this.energy <= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    EndbossIsDead() {
+        if (this.bossEnergy <= 0) {
             return true;
         } else {
             return false;
@@ -85,19 +109,6 @@ class MoveableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImg++;
-    }
-    /**
-     * Plays an animation using the provided images array.
-     * @param {Array} images - An array of image paths to play the animation.
-     */
-    playAnimationOnTime(images) {
-        let i = this.currentImg % images.length;
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImg++;
-        if (this.currentImg > images.length) {
-            this.currentImg = 0;
-        }
     }
     /**
      * Moves the object to the right by a specified speed.
@@ -120,12 +131,5 @@ class MoveableObject extends DrawableObject {
      */
     jump() {
         this.speedY = 40;
-    }
-    /**
-     * Checks if the character is jumping based on its y-coordinate.
-     * @return {boolean} True if the character's y-coordinate is less than 150, false otherwise.
-     */
-    isJumping() {
-        this.character.y < 150;
     }
 }

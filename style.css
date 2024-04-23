@@ -58,7 +58,7 @@ main {
 canvas {
     display: block;
     border-radius: 12px;
-    max-width: 98%;
+    max-width: 100%;
     max-height: 100%;
     border: 1px solid rgba(139, 139, 139, 0.5);
     background-color: black;
@@ -70,8 +70,8 @@ canvas {
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    width: 100%;
     height: 100%;
+    width: 100%;
 }
 
 .game-over img,
@@ -80,7 +80,7 @@ canvas {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
     border-radius: 12px;
     width: 100%;
-    height: 100%;
+    max-height: 720px;
     object-fit: cover;
 }
 
@@ -90,11 +90,12 @@ canvas {
     justify-content: space-between;
     bottom: 8px;
     width: 100%;
-    height: calc(6px + 4vmin);
+    height: calc(6px + 5vmin);
 }
 
 .mobile-control-btn {
     height: 100%;
+    width: auto;
     margin: 0 16px;
     font-size: 0;
     background-color: rgb(252, 211, 84, 0.7);

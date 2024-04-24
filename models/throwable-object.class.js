@@ -1,4 +1,6 @@
 class ThrowableObject extends MoveableObject {
+    bottleIsBroken = false;
+    bossHit = false;
     THROW_BOTTLE_IMAGES = [
         '../img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         '../img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -18,7 +20,7 @@ class ThrowableObject extends MoveableObject {
      * @param {number} x - The x-coordinate of the ThrowableObject.
      * @param {number} y - The y-coordinate of the ThrowableObject.
      */
-    constructor(x, y) {
+    constructor(x, y, otherDirection = false, endboss) {
         super().loadImg(this.THROW_BOTTLE_IMAGES[0]);
         this.loadImages(this.THROW_BOTTLE_IMAGES);
         this.loadImages(this.SPLASH_BOTTLE_IMAGES);
@@ -26,38 +28,74 @@ class ThrowableObject extends MoveableObject {
         this.y = y;
         this.width = 80;
         this.height = 120;
+        this.endboss = endboss;
         this.throw();
-        this.animateThrowBottle();
+        this.animate();
+        this.setThrowDirection(otherDirection);
     }
+    throwInterval;
+    throwdirectionInterval;
+    playAnimationInterval;
     throw() {
-        if (!this.otherDirection) {
-            this.throwRight();
-        } else if (this.otherDirection) {
-            this.throwLeft();
+        this.speedY = 40;
+        this.applyGravity();
+        this.throwInterval = setInterval(() => {
+            this.bottleOnGround();
+            if (this.bottleIsBroken) {
+                this.stopBottleAnimation();
+            } else if (this.endboss.isHurtEndboss() && !this.bossHit) {
+                this.bottleIsBroken = true;
+                this.bossHit = true;
+                this.palySplashBottleAnimation();
+                this.removeAfterSplash();
+            }
+        }, 20);
+    }
+    removeAfterSplash() {
+        setTimeout(() => {
+            const index = world.throwableObjects.indexOf(this);
+            if (index !== -1) {
+                world.throwableObjects.splice(index, 1);
+            }
+        }, 400);
+    }
+    animate() {
+        this.playAnimationInterval = setInterval(() => {
+            if (this.bottleIsBroken && this.isAboveGround()) {
+                this.palySplashBottleAnimation();
+            }
+            else {
+                this.palyThrowBottleAnimation();
+            }
+        }, 100);
+    }
+    setThrowDirection(otherDirection) {
+        this.throwdirectionInterval = setInterval(() => {
+            if (!otherDirection) {
+                this.x += 25;
+            } else if (otherDirection) {
+                this.x -= 25;
+            }
+        }, 35);
+    }
+    palyThrowBottleAnimation() {
+        this.playAnimation(this.THROW_BOTTLE_IMAGES);
+    }
+    palySplashBottleAnimation() {
+        this.playAnimation(this.SPLASH_BOTTLE_IMAGES);
+    }
+    stopBottleAnimation() {
+        clearInterval(this.applygravityInterval);
+        clearInterval(this.throwInterval);
+        clearInterval(this.throwdirectionInterval);
+        setTimeout(() => {
+            clearInterval(this.playAnimationInterval);
+        }, 400);
+    }
+    bottleOnGround() {
+        if (this.y >= 520) {
+            this.bottleIsBroken = true;
+            this.removeAfterSplash();
         }
-    }
-    throwRight() {
-        this.speedY = 40;
-        this.applyGravity();
-        setInterval(() => {
-            this.x += 25;
-        }, 35);
-    }
-    throwLeft() {
-        this.speedY = 40;
-        this.applyGravity();
-        setInterval(() => {
-            this.x -= 25;
-        }, 35);
-    }
-    /**
-     * Animates the throwing of a bottle by playing an animation of the bottle rotating.
-     * This function uses the `setInterval` function to repeatedly call the `playAnimation` method of the current instance of `ThrowableObject`
-     * with the `THROW_BOTTLE_IMAGES` array as the argument. The animation is played every 60 milliseconds.
-     */
-    animateThrowBottle() {
-        setInterval(() => {
-            this.playAnimation(this.THROW_BOTTLE_IMAGES);
-        }, 60);
     }
 }

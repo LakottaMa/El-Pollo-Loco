@@ -25,7 +25,6 @@ class HealthBarEndboss extends DrawableObject {
      * @param {number} percentage - The percentage to set the current object to.
      */
     setPercentage(percentage) {
-        console.log('HealthBarEndboss:', percentage);
         this.percentage = percentage;
         let path = this.IMAGES[this.resolveImageIndex(percentage)];
         this.img = this.imageCache[path];

@@ -65,9 +65,7 @@ class Endboss extends MoveableObject {
             if (this.EndbossIsDead()) {
                 this.playDeadAnimation();
             } else if (this.isHurtEndboss()) {
-                bottle_hit_audio.play();
-                this.playAnimation(this.IMAGES_HURT);
-                boss_hurting_audio.play();
+                this.playHurtAnimation();
             } else {
                 this.isMove();
             }
@@ -114,5 +112,11 @@ class Endboss extends MoveableObject {
             gameVictory();
             game_victory_audio.play();
         }, 1200);
+    }
+
+    playHurtAnimation() {
+        bottle_hit_audio.play();
+        this.playAnimation(this.IMAGES_HURT);
+        hurting_character_audio.play();
     }
 }

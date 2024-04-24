@@ -6,6 +6,7 @@ let game_victory_audio = new Audio('./audio/victory_fanfare.mp3');
 let dead_chicken_audio = new Audio('./audio/chicken_death.mp3');
 let dead_chickenSmall_audio = new Audio('./audio/chicken_small_death.mp3');
 let dead_character_audio = new Audio('./audio/lose_falling.mp3');
+let snore_character_audio = new Audio('./audio/snore.mp3');
 let bottle_hit_audio = new Audio('./audio/bottle_hit.mp3');
 let collect_coin_audio = new Audio('./audio/collect_coin.mp3');
 let collect_bottle_audio = new Audio('./audio/collect_bottle.mp3');
@@ -32,7 +33,8 @@ let soundEffects = [
     hurting_character_audio,
     boss_attack_audio,
     boss_death_audio,
-    boss_hurting_audio
+    boss_hurting_audio,
+    snore_character_audio
 ];
 /**
  * Initializes the sound state on page load.

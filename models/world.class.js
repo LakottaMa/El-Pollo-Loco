@@ -14,7 +14,7 @@ class World {
     bottleBar = new BottleBar();
     healthBar = new HealthBar();
     HealthBarEndboss = new HealthBarEndboss();
-    throwableObjects = [new ThrowableObject()];
+    throwableObjects = [];
     /**
      * Initializes a new instance of the constructor function.
      * @param {Object} canvas - The canvas element to be used for rendering.
@@ -125,13 +125,14 @@ class World {
      */
     checkThrowObject() {
         if (this.keyboard.SPACE && this.bottleAmount > 0) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 300);
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 300, this.character.otherDirection, this.endboss);
             this.throwableObjects.push(bottle);
             this.bottleAmount -= 20;
             throw_audio.play();
             this.bottleBar.setPercentage(this.bottleAmount);
         }
     }
+    
     /**
      * Checks the distance to the boss, logs it and the result of the condition,
      * and adds the HealthBarEndboss to the map if the distance is less than 800.
@@ -154,12 +155,12 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectToMap(this.level.backgroundObjects);
-        this.addObjectToMap(this.throwableObjects);
         this.addObjectToMap(this.level.clouds);
         this.addToMap(this.endboss);
         this.addObjectToMap(this.level.enemies);
         this.addObjectToMap(this.level.coins);
         this.addObjectToMap(this.level.bottle);
+        this.addObjectToMap(this.throwableObjects);
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
         this.checkDistanceToBoss();

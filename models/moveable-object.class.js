@@ -1,7 +1,6 @@
 class MoveableObject extends DrawableObject {
     speed = 0.2;
     deadSoundPlayed = false;
-    otherDirection = false;
     speedY = 0;
     accelerate = 2.5;
     bossEnergy = 100;
@@ -14,11 +13,12 @@ class MoveableObject extends DrawableObject {
         right: 0,
         bottom: 0
     }
+    applygravityInterval;
     /**
      * Applies gravity to the object, causing it to move downwards at a constant rate.
      */
     applyGravity() {
-        setInterval(() => {
+        this.applygravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.accelerate;
@@ -51,7 +51,7 @@ class MoveableObject extends DrawableObject {
      * Decreases the energy of the object by 1 and updates the last hit time if the energy is greater than 0.
      */
     hit() {
-        this.energy -= 5;
+        this.energy -= 10;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -59,9 +59,7 @@ class MoveableObject extends DrawableObject {
         }
     }
     hitEndBoss() {
-        console.log(`Hit, current bossEnergy: ${this.bossEnergy}`);
-        this.bossEnergy -= 20;
-        console.log(`After hit bossEnergy: ${this.bossEnergy}`);
+        this.bossEnergy -= 10;
         if (this.bossEnergy < 0) {
             this.bossEnergy = 0;
         } else {

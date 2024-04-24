@@ -29,4 +29,3 @@ class BottleOnGround extends MoveableObject {
     return this.GROUND_BOTTLE_IMAGES[Math.floor(Math.random() * this.GROUND_BOTTLE_IMAGES.length)];
   }
 }
-

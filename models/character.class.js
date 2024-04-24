@@ -69,6 +69,7 @@ class Character extends MoveableObject {
     ]
     world;
     isJumping = false;
+    lastMovedTimestamp = null;
     constructor() {
         super().loadImg(this.IMAGES_IDLE[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -77,6 +78,7 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.loadImages(this.IMAGES_GAME_OVER);
+        this.lastMovedTimestamp = new Date().getTime();
         this.applyGravity();
         this.animate();
     }
@@ -88,16 +90,18 @@ class Character extends MoveableObject {
             this.playCharacter();
         }, 140);
     }
-    //----- move character -----
     moveCharacter() {
         if (this.canMoveRight()) {
             this.moveRight();
+            this.lastMovedTimestamp = new Date().getTime();
         }
         if (this.canMoveLeft()) {
             this.moveLeft();
+            this.lastMovedTimestamp = new Date().getTime();
         }
         if (this.canJump()) {
             this.jump();
+            this.lastMovedTimestamp = new Date().getTime();
         }
         this.world.camera_x = -this.x + 200;
     }
@@ -121,7 +125,6 @@ class Character extends MoveableObject {
     jump() {
         super.jump();
     }
-    //-----play animation -----
     playCharacter() {
         if (this.isDead()) {
             this.playDeadAnimation();
@@ -132,10 +135,12 @@ class Character extends MoveableObject {
                 this.playIsJumpingAnimation();
                 this.isJumping = true;
             }
+        } else if (this.playLongIdle()) {
+            this.playLongIdleAnimation();
+        } else if (this.playBored()) {
+            this.playIdleAnimation();
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playMoveAnimation();
-        } else {
-            this.playIdleAnimation();
         }
     }
     playDeadAnimation() {
@@ -151,19 +156,17 @@ class Character extends MoveableObject {
         hurting_character_audio.play();
     }
     playIsJumpingAnimation() {
-        let jumpAnimationSpeed = 1000 / 10;
-        let index = 0; 
+        let index = 0;
         jumping_audio.play();
-        const interval = setInterval(() => {
+        const jumpinerinterval = setInterval(() => {
             this.loadImg(this.IMAGES_JUMPING[index]);
             index++;
             if (index >= this.IMAGES_JUMPING.length) {
-                clearInterval(interval);
+                clearInterval(jumpinerinterval);
                 this.isJumping = false;
             }
-        }, jumpAnimationSpeed);
+        }, 1000 / 10);
     }
-
     playMoveAnimation() {
         this.x += this.speed;
         this.playAnimation(this.IMAGES_WALKING);
@@ -174,5 +177,14 @@ class Character extends MoveableObject {
     }
     playLongIdleAnimation() {
         this.playAnimation(this.IMAGES_LONG_IDLE);
+        snore_character_audio.play();
+    }
+    playBored() {
+        let currentTime = new Date().getTime();
+        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 200;
+    }
+    playLongIdle() {
+        let currentTime = new Date().getTime();
+        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 4000;
     }
 }

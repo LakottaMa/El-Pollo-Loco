@@ -35,12 +35,10 @@ class World {
         this.character.world = this;
     }
     /**
-     * Runs the game loop, executing the following functions every 10ms:
-     * - checkCollisions: checks for collisions between the character and enemies in the level
-     * - checkThrowObject: checks if the space key is pressed and throws a bottle object accordingly
-     * - checkCollectableBottle: checks if the character is colliding with any bottles in the level and updates the bottle amount and bottle bar percentage accordingly
-     * - checkCollectableCoins: checks if the character is colliding with any coins in the level and updates the coin amount and coin bar percentage accordingly
-     * - checkCollisionFromAboveOnChicks: checks for collision from above on chicks
+     * Runs the game loop, which checks for collisions, throws objects, checks for endboss collisions,
+     * collects bottles and coins, checks for collision from above on chicks, and checks the distance to the boss.
+     * This function is called once every 160 milliseconds for the first setInterval and once every 1 millisecond
+     * for the second setInterval.
      */
     run() {
         setInterval(() => {
@@ -67,6 +65,11 @@ class World {
             }
         });
     }
+    /**
+     * Checks for collisions between the throwable objects and the endboss.
+     * If a collision is detected, the endboss is hit and the health bar is updated.
+     * @param {type} bottle - the throwable object being checked for collision
+     */
     checkEndbossCollisions() {
         this.throwableObjects.forEach((bottle) => {
             if (bottle.isColliding(this.endboss)) {

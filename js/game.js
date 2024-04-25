@@ -6,8 +6,6 @@ let restartBtn = document.getElementById("startGame");
 let startScreenBtn = document.getElementById('startScreenBtn');
 let gameOverElement = document.getElementById('game-over');
 let victoryElement = document.getElementById('game-victory');
-
-
 /**
  * Initializes the canvas and creates a new World instance.
  */
@@ -203,12 +201,18 @@ function startingGame() {
         startElement.classList.add('d-none');
     }, 200);
 }
+/**
+ * Initializes the start screen by hiding the canvas element and showing the start element.
+ */
 function initStartScreen() {
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
     canvasElement.classList.add('d-none');
     startElement.classList.remove('d-none');
 }
+/**
+ * Hides the game over and victory elements, shows the start screen, and clears all intervals.
+ */
 function backStartScreen() {
     initStartScreen();
     startScreenBtn.classList.add('d-none');
@@ -229,8 +233,10 @@ function gameOver() {
     gameOverElement.classList.remove('d-none');
     clearAllIntervals();
 }
-
 function gameVictory() {
+/**
+ * Hides the canvas and controls elements, shows the game victory element, and clears all intervals.
+ */
     let canvasElement = document.querySelector('canvas');
     let controlsElement = document.getElementById('mobile-controls');
     let victoryElement = document.getElementById('game-victory');
@@ -239,12 +245,11 @@ function gameVictory() {
     victoryElement.classList.remove('d-none');
     clearAllIntervals();
 }
-
 /**
  * Clears all intervals up to 99999.
  */
 function clearAllIntervals() {
-    for (let i = 1; i < 9999; i++) window.clearInterval(i);
+    for (let i = 1; i < 99999; i++) window.clearInterval(i);
 }
 /** Removes the focus from the clicked button */
 let buttons = document.querySelectorAll('.button');
@@ -253,5 +258,3 @@ buttons.forEach(function (button) {
         this.blur();
     });
 });
-
-

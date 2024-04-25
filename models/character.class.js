@@ -1,4 +1,7 @@
 class Character extends MoveableObject {
+    world;
+    isJumping = false;
+    lastMovedTimestamp = null;
     height = 540;
     width = 240;
     y = 120;
@@ -66,10 +69,13 @@ class Character extends MoveableObject {
         '../img/2_character_pepe/1_idle/long_idle/I-18.png',
         '../img/2_character_pepe/1_idle/long_idle/I-19.png',
         '../img/2_character_pepe/1_idle/long_idle/I-20.png'
-    ]
-    world;
-    isJumping = false;
-    lastMovedTimestamp = null;
+    ];
+    /**
+     * Initializes a new instance of the Character class.
+     * This constructor loads the necessary images for the character's states
+     * (walking, dead, hurt, idle, long idle, game over), sets the last moved
+     * timestamp, applies gravity, and starts the animation.
+     */
     constructor() {
         super().loadImg(this.IMAGES_IDLE[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -82,6 +88,9 @@ class Character extends MoveableObject {
         this.applyGravity();
         this.animate();
     }
+    /**
+     * Animates the character by moving it and playing its animation.
+     */
     animate() {
         setInterval(() => {
             this.moveCharacter();
@@ -90,6 +99,13 @@ class Character extends MoveableObject {
             this.playCharacter();
         }, 140);
     }
+    /**
+     * Moves the character based on its current state.
+     * This function checks if the character can move right, left, or jump.
+     * If the character can move in a certain direction, it updates the character's
+     * position and sets the last moved timestamp. The camera's position is also
+     * updated to keep the character in the center of the screen.
+     */
     moveCharacter() {
         if (this.canMoveRight()) {
             this.moveRight();
@@ -105,26 +121,51 @@ class Character extends MoveableObject {
         }
         this.world.camera_x = -this.x + 200;
     }
+    /**
+     * Determines if the character can move to the right.
+     * @return {boolean} Returns true if the character can move to the right, false otherwise.
+     */
     canMoveRight() {
         return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
     }
+    /**
+     * Moves the object to the right by calling the super class's moveRight method and sets otherDirection to false.
+     */
     moveRight() {
         super.moveRight();
         this.otherDirection = false;
     }
+    /**
+     * Determines if the character can move to the left.
+     * @return {boolean} Returns true if the character can move to the left, false otherwise.
+     */
     canMoveLeft() {
         return this.world.keyboard.LEFT && this.x > -1000;
     }
+    /**
+     * Moves the object to the left by calling the superclass's moveLeft method and sets otherDirection to true.
+     */
     moveLeft() {
         super.moveLeft();
         this.otherDirection = true;
     }
+    /**
+     * Determines if the character can jump.
+     * @return {boolean} Returns true if the character can jump, false otherwise.
+     */
     canJump() {
         return this.world.keyboard.UP && !this.isAboveGround();
     }
+    /**
+     * Jumps using the super class's jump method.
+     */
     jump() {
         super.jump();
     }
+    /**
+     * Plays the character animation based on its state.
+     * @return {undefined} This function does not return a value.
+     */
     playCharacter() {
         if (this.isDead()) {
             this.playDeadAnimation();
@@ -143,6 +184,9 @@ class Character extends MoveableObject {
             this.playMoveAnimation();
         }
     }
+    /**
+     * Plays the dead animation for the character.
+     */
     playDeadAnimation() {
         this.playAnimation(this.IMAGES_DEAD);
         this.y += 40;
@@ -151,10 +195,21 @@ class Character extends MoveableObject {
             gameOver();
         }, 1200);
     }
+    /**
+     * Plays the hurt animation for the end boss.
+     */
     playHurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
         hurting_character_audio.play();
     }
+    /**
+     * Plays the jumping animation for the character.
+     * This function starts playing the jumping animation by incrementing an index
+     * and loading the corresponding image from the `IMAGES_JUMPING` array. It
+     * continues playing the animation until the index reaches the length of the
+     * `IMAGES_JUMPING` array, at which point it stops the animation and sets the
+     * `isJumping` property to `false`.
+     */
     playIsJumpingAnimation() {
         let index = 0;
         jumping_audio.play();
@@ -167,22 +222,42 @@ class Character extends MoveableObject {
             }
         }, 1000 / 10);
     }
+    /**
+     * Plays the move animation for the character.
+     */
     playMoveAnimation() {
         this.x += this.speed;
         this.playAnimation(this.IMAGES_WALKING);
         walking_audio.play();
     }
+    /**
+     * Plays the idle animation for the character.
+     * This function plays the idle animation by calling the `playAnimation` method
+     * with the `IMAGES_IDLE` array as the argument. It does not take any parameters
+     * and does not return any value.
+     */
     playIdleAnimation() {
         this.playAnimation(this.IMAGES_IDLE);
     }
+    /**
+     * Plays the long idle animation for the character.
+     */
     playLongIdleAnimation() {
         this.playAnimation(this.IMAGES_LONG_IDLE);
         snore_character_audio.play();
     }
+    /**
+     * Determines if the character is bored based on the time since the last move.
+     * @return {boolean} Returns true if the character is bored, false otherwise.
+     */
     playBored() {
         let currentTime = new Date().getTime();
         return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 200;
     }
+    /**
+     * Determines if the character has been idle for a long time.
+     * @return {boolean} Returns true if the character has been idle for more than 4000 milliseconds, false otherwise.
+     */
     playLongIdle() {
         let currentTime = new Date().getTime();
         return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 4000;

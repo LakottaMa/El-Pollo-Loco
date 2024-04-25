@@ -1,4 +1,5 @@
 class SmallChicken extends MoveableObject {
+    enemyIsDead = false;
     height = 75;
     width = 75;
     y = 555;
@@ -16,7 +17,14 @@ class SmallChicken extends MoveableObject {
     DEAD_IMAGES = [
         '../img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
-    enemyIsDead = false;
+    /**
+     * Initializes a new instance of the SmallChicken class.
+     * Loads the first image from the IMAGES_WALKING array,
+     * loads the IMAGES_WALKING and DEAD_IMAGES arrays,
+     * sets the x position to a random value between 800 and 4100,
+     * sets the speed to a random value between 2 and 12,
+     * applies gravity, and starts animation.
+     */
     constructor() {
         super().loadImg(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -26,6 +34,9 @@ class SmallChicken extends MoveableObject {
         this.applyGravity();
         this.animate();
     }
+    /**
+     * Animates the small chicken by moving it and playing its animation.
+     */
     animate() {
         setInterval(() => {
             this.moveChicken();
@@ -34,12 +45,18 @@ class SmallChicken extends MoveableObject {
             this.animateChicken();
         }, 100);
     }
+    /**
+     * Moves the small chicken by moving it left and playing its animation if the enemy is not dead.
+     */
     moveChicken() {
         if (!this.enemyIsDead) {
             this.moveLeft();
             this.playAnimation(this.IMAGES_WALKING);
         }
     }
+    /**
+     * Animates the chicken if it is dead and the dead sound has not been played yet.
+     */
     animateChicken() {
         if (this.enemyIsDead && !this.deadSoundPlayed) {
             this.loadImg(this.DEAD_IMAGES);

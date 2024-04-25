@@ -6,7 +6,6 @@ class DrawableObject {
     height = 720;
     imageCache = {}
     currentImg = 0;
-
     /**
      * Loads an image from the specified path.
      * @param {string} path - The path of the image file.

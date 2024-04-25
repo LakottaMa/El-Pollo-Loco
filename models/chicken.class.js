@@ -26,6 +26,9 @@ class Chicken extends MoveableObject {
         this.applyGravity();
         this.animate();
     }
+    /**
+     * Animates the chicken by moving it and playing its animation.
+     */
     animate() {
         setInterval(() => {
             this.moveChicken();
@@ -34,12 +37,18 @@ class Chicken extends MoveableObject {
             this.animateChicken();
         },10);
     }
+    /**
+     * Moves the chicken by moving it left and playing its animation if the enemy is not dead.
+     */
     moveChicken() {
         if (!this.enemyIsDead) {
             this.moveLeft();
             this.playAnimation(this.IMAGES_WALKING);
         }
     }
+    /**
+     * Animates the chicken if it is dead and the dead sound has not been played yet.
+     */
     animateChicken() {
         if (this.enemyIsDead && !this.deadSoundPlayed) {
             this.loadImg(this.DEAD_IMAGES);

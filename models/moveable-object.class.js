@@ -58,6 +58,9 @@ class MoveableObject extends DrawableObject {
             this.lastHit = new Date().getTime();
         }
     }
+    /**
+     * Decreases the bossEnergy of the object by 10 and updates the lastHitEndBoss time if the bossEnergy is greater than 0.
+     */
     hitEndBoss() {
         this.bossEnergy -= 10;
         if (this.bossEnergy < 0) {
@@ -75,6 +78,10 @@ class MoveableObject extends DrawableObject {
         timepassed = timepassed / 400;
         return timepassed < 1;
     }
+    /**
+     * Checks if the object is currently hurt based on the time passed since the last hit.
+     * @return {boolean} Returns true if the object is currently hurt, false otherwise.
+     */
     isHurtEndboss() {
         let timepassed = new Date().getTime() - this.lastHitEndBoss;
         timepassed = timepassed / 400;
@@ -91,6 +98,10 @@ class MoveableObject extends DrawableObject {
             return false;
         }
     }
+    /**
+     * Determines if the end boss is dead based on its bossEnergy.
+     * @return {boolean} Returns true if the end boss is dead, false otherwise.
+     */
     EndbossIsDead() {
         if (this.bossEnergy <= 0) {
             return true;

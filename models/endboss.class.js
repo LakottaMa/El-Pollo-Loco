@@ -60,6 +60,9 @@ class Endboss extends MoveableObject {
         this.x = 3800;
         this.animate();
     }
+    /**
+     * Animates the Endboss instance by periodically checking its state and playing corresponding animations.
+     */
     animate() {
         setInterval(() => {
             if (this.EndbossIsDead()) {
@@ -74,6 +77,12 @@ class Endboss extends MoveableObject {
             this.isAttacking();
         }, 100);
     }
+    /**
+     * Checks the distance to the boss and performs corresponding actions based on the distance.
+     * If the distance is less than 300, plays a boss attack audio, plays the attacking animation,
+     * sets the speed to 25 and the offset to {right: 45, left: -100, bottom: 90, top: 80}.
+     * Otherwise, sets the speed to 8 and the offset to {right: 45, left: 70, bottom: 90, top: 80}.
+     */
     isAttacking() {
         if (world.checkDistanceToBoss() < 300) {
             boss_attack_audio.play();
@@ -95,6 +104,9 @@ class Endboss extends MoveableObject {
             };
         }
     }
+    /**
+     * Checks the distance to the boss and performs corresponding actions based on the distance.
+     */
     isMove() {
         if (world.checkDistanceToBoss() <= 850) {
             this.playAnimation(this.IMAGES_WALKING);
@@ -104,6 +116,9 @@ class Endboss extends MoveableObject {
             this.playAnimation(this.IMAGES_ALERT);
         }
     }
+    /**
+     * Plays the dead animation for the end boss.
+     */
     playDeadAnimation() {
         this.playAnimation(this.IMAGES_DEAD);
         boss_death_audio.play();
@@ -113,7 +128,9 @@ class Endboss extends MoveableObject {
             game_victory_audio.play();
         }, 1200);
     }
-
+    /**
+     * Plays the hurt animation for the end boss.
+     */
     playHurtAnimation() {
         bottle_hit_audio.play();
         this.playAnimation(this.IMAGES_HURT);

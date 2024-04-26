@@ -61,17 +61,17 @@ function initLevel() {
             new BottleOnGround(-700),
             new BottleOnGround(-900),
             new BottleOnGround(-1000),
-            new BottleOnGround(180),
+            new BottleOnGround(-100),
             new BottleOnGround(200),
-            new BottleOnGround(250),
-            new BottleOnGround(380),
+            new BottleOnGround(300),
             new BottleOnGround(580),
+            new BottleOnGround(780),
             new BottleOnGround(1200),
             new BottleOnGround(1800),
             new BottleOnGround(2000),
-            new BottleOnGround(2100),
-            new BottleOnGround(2200),
-            new BottleOnGround(2300)
+            new BottleOnGround(2150),
+            new BottleOnGround(2300),
+            new BottleOnGround(2600)
         ]
     );
 }

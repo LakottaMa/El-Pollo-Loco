@@ -33,7 +33,7 @@ class MoveableObject extends DrawableObject {
         if (this instanceof ThrowableObject) {
             return true;
         } else {
-             return this.y < 110; 
+            return this.y < 110;
         }
     }
     /**
@@ -63,7 +63,7 @@ class MoveableObject extends DrawableObject {
     hitEndBoss() {
         this.bossEnergy = Math.max(0, this.bossEnergy - 20);
         this.lastHitEndBoss = this.bossEnergy > 0 ? new Date().getTime() : this.lastHitEndBoss;
-    }    
+    }
     /**
      * Checks if the object is currently hurt based on the time passed since the last hit.
      * @return {boolean} Returns true if the object is currently hurt, false otherwise.

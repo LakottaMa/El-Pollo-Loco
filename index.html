@@ -9,6 +9,9 @@
     <title>El Pollo Loco</title>
 </head>
 <body onload="init()">
+    <div id="landscape-orientation" class="landscape-orientation d-none">
+        <h2>Please rotate your device to landscape orientation</h2>
+    </div>
     <main id="fullScreen">
         <div id="additional-info">
             <section>
@@ -20,8 +23,8 @@
                 </p>
                 <br><br>
                 <ul>
-                    <li><a href="legal.html" target="_blank">Legal notice</a></li>
-                    <li><a href="privacy.html" target="_blank">Privacy Policy</a></li>
+                    <li><a href="legal_notice.html" target="_blank">Legal notice</a></li>
+                    <li><a href="privacy_policy.html" target="_blank">Privacy Policy</a></li>
                 </ul>
             </section>
         </div>
@@ -43,7 +46,7 @@
             <div id="game-over" class="game-over d-none"><img
                     src="./img/9_intro_outro_screens/game_over/oh no you lost!.png"></div>
         </div>
-        <div id="mobile-controls" class="mobile-controls">
+        <div id="mobile-controls" class="mobile-controls d-none">
             <div>
                 <button class="mobile-control-btn button">left<img src="./img/icons/left_64.png"
                         alt="Left arrow icon"></button>

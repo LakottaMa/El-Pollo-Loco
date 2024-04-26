@@ -42,6 +42,18 @@ main {
     margin: 0 12px;
 }
 
+.landscape-orientation {
+    background-color: rgba(188, 122, 15, 0.9);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 24px;
+    border-radius: 12px;
+    z-index: 2;
+}
+
 #additional-info {
     background-color: rgba(188, 122, 15, 0.9);
     display: none;
@@ -185,17 +197,12 @@ canvas {
 }
 
 @media screen and (max-width: 1280px) {
-    h1 {
-        display: none !important;
-    }
-
     .top-bar {
         padding-top: 12px;
     }
 }
 
 @media screen and (max-height: 480px) {
-
     canvas,
     main,
     .game-container-state,
@@ -204,7 +211,6 @@ canvas {
     .game-start img {
         height: 97dvh !important;
     }
-
     .top-bar {
         padding: 12px 0;
     }

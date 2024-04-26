@@ -17,119 +17,6 @@ function init() {
     initVolume();
 }
 /**
- * Handles keydown and keyup events and updates the keyboard state accordingly.
- */
-window.addEventListener("keydown", handleKeyDown);
-window.addEventListener("keyup", handleKeyUp);
-/**
- * Handles the key down event and updates the keyboard state accordingly.
- * @param {KeyboardEvent} event - The key down event object.
- */
-function handleKeyDown(event) {
-    if (event.key == "ArrowLeft") {
-        keyboard.LEFT = true;
-    }
-    if (event.key == "ArrowRight") {
-        keyboard.RIGHT = true;
-    }
-    if (event.key == "ArrowUp") {
-        keyboard.UP = true;
-    }
-    if (event.key == "ArrowDown") {
-        keyboard.DOWN = true;
-    }
-    if (event.key == " ") {
-        keyboard.SPACE = true;
-    }
-}
-/**
- * Handles the key up event and updates the keyboard state accordingly.
- * @param {KeyboardEvent} event - The key up event object.
- * @return {void} This function does not return anything.
- */
-function handleKeyUp(event) {
-    if (event.key == "ArrowLeft") {
-        keyboard.LEFT = false;
-    }
-    if (event.key == "ArrowRight") {
-        keyboard.RIGHT = false;
-    }
-    if (event.key == "ArrowUp") {
-        keyboard.UP = false;
-    }
-    if (event.key == "ArrowDown") {
-        keyboard.DOWN = false;
-    }
-    if (event.key == " ") {
-        keyboard.SPACE = false;
-    }
-}
-/**
- * Handles button clicks and updates the keyboard state based on the action.
- * @param {string} action - The action triggered by the button click.
- */
-function handleButtonClick(action) {
-    switch (action) {
-        case "left":
-            keyboard.LEFT = true;
-            break;
-        case "right":
-            keyboard.RIGHT = true;
-            break;
-        case "jump":
-            keyboard.UP = true;
-            break;
-        case "shoot":
-            keyboard.SPACE = true;
-            break;
-        default:
-            break;
-    }
-}
-/**
- * Add event listener to each mobile control button
- */
-const controlButtons = document.querySelectorAll('.mobile-control-btn');
-controlButtons.forEach(button => {
-    let action = button.textContent.toLowerCase();
-    // Funktion zur Behandlung der Aktionen bei Drücken des Buttons
-    function handleButtonPress() {
-        handleButtonClick(action);
-        button.classList.add('active');
-    }
-    function handleButtonRelease() {
-        switch (action) {
-            case "left":
-                keyboard.LEFT = false;
-                break;
-            case "right":
-                keyboard.RIGHT = false;
-                break;
-            case "jump":
-                keyboard.UP = false;
-                break;
-            case "shoot":
-                keyboard.SPACE = false;
-                break;
-            default:
-                break;
-        }
-        button.classList.remove('active');
-    }
-    button.addEventListener('mousedown', handleButtonPress);
-    button.addEventListener('mouseup', handleButtonRelease);
-    button.addEventListener('touchstart', function (event) {
-        if (event.cancelable) event.preventDefault();
-        handleButtonPress();
-    });
-    button.addEventListener('touchend', function () {
-        handleButtonRelease();
-    });
-    button.addEventListener('touchcancel', function () {
-        handleButtonRelease();
-    });
-});
-/**
  * Add event listener to the fullscreen button
  */
 fullscreenButton.addEventListener('click', function () {
@@ -171,9 +58,19 @@ function isMobileDevice() {
  * else it will show an alert.
  */
 function checkMobileDevice() {
-    if (isMobileDevice() && !isLandscapeOrientation()) {
-        // alert zum schönen dialog bauen!!
-        alert("Bitte drehen Sie Ihr Gerät ins Querformat, um das Spiel zu spielen.");
+    let landscapeContainer = document.getElementById('landscape-orientation');
+    let mobileControls = document.getElementById('mobile-controls');
+    let mainContainer = document.getElementById('fullScreen');
+    if (isMobileDevice()) {
+        if (!isLandscapeOrientation()) {
+            landscapeContainer.classList.remove('d-none');
+            mobileControls.classList.add('d-none');
+            mainContainer.classList.add('d-none');
+        } else {
+            landscapeContainer.classList.add('d-none');
+            mobileControls.classList.remove('d-none');
+            mainContainer.classList.remove('d-none');
+        }
     }
 }
 /**
@@ -222,27 +119,36 @@ function backStartScreen() {
     clearAllIntervals();
 }
 /**
- * Hides the canvas and controls elements, and shows the game over element.
+ * Hides the canvas and mobile controls elements.
+ */
+function hideElements() {
+    let canvasElement = document.querySelector('canvas');
+    let controlsElement = document.getElementById('mobile-controls');
+    canvasElement.classList.add('d-none');
+    controlsElement.classList.add('d-none');
+}
+/**
+ * Shows an element by removing the 'd-none' class from its class list.
+ * @param {string} elementId - The ID of the element to be shown.
+ */
+function showElement(elementId) {
+    let element = document.getElementById(elementId);
+    element.classList.remove('d-none');
+}
+/**
+ * Hides the canvas and mobile controls elements, shows the game over element, and clears all intervals.
  */
 function gameOver() {
-    let canvasElement = document.querySelector('canvas');
-    let controlsElement = document.getElementById('mobile-controls');
-    let gameOverElement = document.getElementById('game-over');
-    canvasElement.classList.add('d-none');
-    controlsElement.classList.add('d-none');
-    gameOverElement.classList.remove('d-none');
+    hideElements();
+    showElement('game-over');
     clearAllIntervals();
 }
-function gameVictory() {
 /**
- * Hides the canvas and controls elements, shows the game victory element, and clears all intervals.
+ * Hides the canvas and mobile controls elements, shows the game victory element, and clears all intervals.
  */
-    let canvasElement = document.querySelector('canvas');
-    let controlsElement = document.getElementById('mobile-controls');
-    let victoryElement = document.getElementById('game-victory');
-    canvasElement.classList.add('d-none');
-    controlsElement.classList.add('d-none');
-    victoryElement.classList.remove('d-none');
+function gameVictory() {
+    hideElements();
+    showElement('game-victory');
     clearAllIntervals();
 }
 /**
@@ -258,7 +164,6 @@ buttons.forEach(function (button) {
         this.blur();
     });
 });
-
 /**
  * Toggles the visibility of the popover element.
  */
@@ -270,14 +175,14 @@ function togglePopover() {
         popover.style.display = 'block';
     }
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    var popoverButton = document.querySelector('.info-btn');
+//
+document.addEventListener('DOMContentLoaded', function () {
+    const popoverButton = document.querySelector('.info-btn');
     popoverButton.addEventListener('click', togglePopover);
 });
 
-document.addEventListener('click', function(event) {
-    var popover = document.getElementById('additional-info');
+document.addEventListener('click', function (event) {
+    const popover = document.getElementById('additional-info');
     if (!popover.contains(event.target) && event.target !== document.querySelector('.info-btn')) {
         popover.style.display = 'none';
     }

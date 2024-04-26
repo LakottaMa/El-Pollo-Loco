@@ -1,4 +1,3 @@
-
 class World {
     character = new Character();
     endboss = new Endboss();
@@ -44,9 +43,9 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObject();
-            this.checkEndbossCollisions();
+            this.checkEnemyCollisions();
             this.checkDistanceToBoss();
-        }, 240);
+        }, 180);
         setInterval(() => {
             this.checkCollectableBottle();
             this.checkCollectableCoins();
@@ -69,18 +68,43 @@ class World {
                 }
             });
         }
-    }    
+    }
     /**
-     * Checks for collisions between the throwable objects and the endboss.
-     * If a collision is detected, the endboss is hit and the health bar is updated.
-     * @param {type} bottle - the throwable object being checked for collision
+     * Checks for collisions between the throwable objects and enemies in the level.
+     * If a collision is detected, the corresponding enemy is marked as dead,
+     * a falling animation is triggered, and the health bar of the endboss is updated if the endboss is hit.
      */
-    checkEndbossCollisions() {
+    checkEnemyCollisions() {
         this.throwableObjects.forEach((bottle) => {
-            if (!bottle.hasHitEndboss && bottle.isColliding(this.endboss)) {
-                bottle.hasHitEndboss = true;
-                this.endboss.hitEndBoss();
-                this.HealthBarEndboss.setPercentage(this.endboss.bossEnergy);
+            this.checkEndbossCollision(bottle);
+            this.checkEnemyBottleCollision(bottle);
+        });
+    }
+    /**
+     * Checks collision between the throwable object and the endboss.
+     * If a collision is detected and the endboss has not been hit, marks the endboss as hit
+     * and updates the health bar of the endboss.
+     * @param {Object} bottle - The throwable object being checked for collision with the endboss.
+     */
+    checkEndbossCollision(bottle) {
+        if (!bottle.hasHitEndboss && bottle.isColliding(this.endboss)) {
+            bottle.hasHitEndboss = true;
+            this.endboss.hitEndBoss();
+            this.HealthBarEndboss.setPercentage(this.endboss.bossEnergy);
+        }
+    }
+    /**
+     * Checks collision between the throwable object and enemies.
+     * If a collision is detected with an enemy that has not been hit, marks the enemy as hit
+     * and triggers a falling animation for the enemy.
+     * @param {Object} bottle - The throwable object being checked for collision with enemies.
+     */
+    checkEnemyBottleCollision(bottle) {
+        this.level.enemies.forEach((enemy) => {
+            if (!bottle.hasHitEnemy && bottle.isColliding(enemy)) {
+                bottle.hasHitEnemy = true;
+                enemy.enemyIsDead = true;
+                this.enemyFallingAnimation(enemy);
             }
         });
     }
@@ -93,7 +117,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isAboveGround() && this.character.isColliding(enemy) && this.character.speedY < 0) {
                 enemy.enemyIsDead = true;
-                this.enemyFallingInterval(enemy);
+                this.enemyFallingAnimation(enemy);
             }
         });
     }
@@ -101,7 +125,7 @@ class World {
      * Executes a falling interval for the given enemy object.
      * @param {Object} enemy - The enemy object to execute the interval for.
      */
-    enemyFallingInterval(enemy) {
+    enemyFallingAnimation(enemy) {
         let fallInterval = setInterval(() => {
             enemy.y += 15;
             if (enemy.y >= 700) {

@@ -7,6 +7,23 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(216, 216, 255) orange;
+}
+
+*::-webkit-scrollbar {
+    width: 12px;
+    height: 90%;
+}
+
+*::-webkit-scrollbar-track {
+    background: orange;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(216, 216, 255);
+    border-radius: 20px;
+    border: 3px solid orange;
 }
 
 body {
@@ -32,6 +49,32 @@ h2 {
 
 .d-none {
     display: none !important;
+}
+
+.legal-topics {
+    position: relative;
+    max-width: 800px;
+    max-height: 600px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    overflow-y: auto;
+    background-color: rgba(248, 198, 118, 0.8);
+    padding: 36px;
+    border-radius: 24px 0 0 24px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    h2{
+        letter-spacing: normal;
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    text-align: center;
+    font-size: 36px;
+    a{
+        text-decoration: none;
+    }
 }
 
 main {
@@ -66,16 +109,19 @@ main {
     text-shadow: 4px 4px 4px rgba(42, 39, 12, 0.461);
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 12px;
-    p{
+
+    p {
         font-size: calc(16px + 1vmin);
     }
-    ul{
+
+    ul {
         list-style-type: none;
         display: flex;
         justify-content: center;
         gap: 24px;
     }
-    a{
+
+    a {
         text-decoration: none;
         font-size: 16px;
         color: rgba(0, 0, 255, 0.8);
@@ -127,7 +173,7 @@ canvas {
     justify-content: space-between;
     bottom: 8px;
     width: 100%;
-    height: calc(6px + 5vmin);
+    height: calc(16px + 5vmin);
 }
 
 .mobile-control-btn {
@@ -200,6 +246,9 @@ canvas {
     .top-bar {
         padding-top: 12px;
     }
+    .legal-topics {
+        margin: 12px;
+    }
 }
 
 @media screen and (max-height: 480px) {
@@ -211,6 +260,7 @@ canvas {
     .game-start img {
         height: 97dvh !important;
     }
+
     .top-bar {
         padding: 12px 0;
     }

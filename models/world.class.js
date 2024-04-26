@@ -45,12 +45,12 @@ class World {
             this.checkCollisions();
             this.checkThrowObject();
             this.checkEndbossCollisions();
-        }, 160);
+            this.checkDistanceToBoss();
+        }, 240);
         setInterval(() => {
             this.checkCollectableBottle();
             this.checkCollectableCoins();
             this.checkCollisionFromAboveOnChicks();
-            this.checkDistanceToBoss();
         }, 1);
     }
     /**
@@ -58,13 +58,18 @@ class World {
      * If a collision is detected, the character is hit and the health bar is updated.
      */
     checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) || this.character.isColliding(this.endboss)) {
-                this.character.hit();
-                this.healthBar.setPercentage(this.character.energy);
-            }
-        });
-    }
+        if (!this.character.isHit) {
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy) || this.character.isColliding(this.endboss)) {
+                    this.character.hit();
+                    this.healthBar.setPercentage(this.character.energy);
+                    setTimeout(() => {
+                        this.character.isHit = false;
+                    }, 100);
+                }
+            });
+        }
+    }    
     /**
      * Checks for collisions between the throwable objects and the endboss.
      * If a collision is detected, the endboss is hit and the health bar is updated.
@@ -72,26 +77,37 @@ class World {
      */
     checkEndbossCollisions() {
         this.throwableObjects.forEach((bottle) => {
-            if (bottle.isColliding(this.endboss)) {
+            if (!bottle.hasHitEndboss && bottle.isColliding(this.endboss)) {
+                bottle.hasHitEndboss = true;
                 this.endboss.hitEndBoss();
                 this.HealthBarEndboss.setPercentage(this.endboss.bossEnergy);
             }
         });
     }
     /**
-     * Checks for collision from above on chicks.
+     * Checks for collisions between the character and enemies in the level from above.
+     * If a collision is detected and the character is above ground and moving downwards,
+     * the enemy is marked as dead and a falling interval is executed.
      */
     checkCollisionFromAboveOnChicks() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isAboveGround() &&
-                this.character.isColliding(enemy) &&
-                this.character.speedY < 0) {
+            if (this.character.isAboveGround() && this.character.isColliding(enemy) && this.character.speedY < 0) {
                 enemy.enemyIsDead = true;
-                setTimeout(() => {
-                    enemy.y += 150;
-                }, 1000);
+                this.enemyFallingInterval(enemy);
             }
         });
+    }
+    /**
+     * Executes a falling interval for the given enemy object.
+     * @param {Object} enemy - The enemy object to execute the interval for.
+     */
+    enemyFallingInterval(enemy) {
+        let fallInterval = setInterval(() => {
+            enemy.y += 15;
+            if (enemy.y >= 700) {
+                clearInterval(fallInterval);
+            }
+        }, 100);
     }
     /**
      * Checks if the character is colliding with any coins in the level and
@@ -125,17 +141,22 @@ class World {
     }
     /**
      * Checks if the space key is pressed and throws a bottle object accordingly.
+     * This function checks if the space key is pressed and the bottle amount is greater than 0.
+     * If the condition is met, it checks if there are no throwable objects or if the first throwable object is not thrown.
+     * If the condition is also met, it creates a new ThrowableObject instance with the given parameters and adds it to the throwableObjects array.
+     * The bottle amount is decreased by 20, the bottle_throw_audio is played, and the bottle bar percentage is updated.
      */
     checkThrowObject() {
         if (this.keyboard.SPACE && this.bottleAmount > 0) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 300, this.character.otherDirection, this.endboss);
-            this.throwableObjects.push(bottle);
-            this.bottleAmount -= 20;
-            throw_audio.play();
-            this.bottleBar.setPercentage(this.bottleAmount);
+            if (this.throwableObjects.length === 0 || !this.throwableObjects[0].isThrown) {
+                let bottle = new ThrowableObject(this.character.otherDirection, this.endboss, this.character);
+                this.throwableObjects.push(bottle);
+                this.bottleAmount -= 20;
+                bottle_throw_audio.play();
+                this.bottleBar.setPercentage(this.bottleAmount);
+            }
         }
     }
-    
     /**
      * Checks the distance to the boss, logs it and the result of the condition,
      * and adds the HealthBarEndboss to the map if the distance is less than 800.

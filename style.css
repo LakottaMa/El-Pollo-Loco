@@ -24,13 +24,10 @@ body {
     user-select: none;
 }
 
-h1 {
-    font-size: calc(32px + 2vmin);
-    letter-spacing: 6px;
-    text-shadow: 4px 4px 4px rgba(42, 39, 12, 0.461);
-    background: linear-gradient(to right, #994409, #B76127, #BC7A0F, #A0220A);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+h2 {
+    font-size: calc(18px + 2vmin);
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 2px rgba(255, 255, 255, 0.5);
 }
 
 .d-none {
@@ -43,6 +40,34 @@ main {
     max-width: 1280px;
     max-height: 720px;
     margin: 0 12px;
+}
+
+#additional-info {
+    background-color: rgba(188, 122, 15, 0.9);
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    padding: 12px 24px;
+    transform: translate(50%, -50%);
+    letter-spacing: 2px;
+    text-shadow: 4px 4px 4px rgba(42, 39, 12, 0.461);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 12px;
+    p{
+        font-size: calc(16px + 1vmin);
+    }
+    ul{
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+    }
+    a{
+        text-decoration: none;
+        font-size: 16px;
+        color: rgba(0, 0, 255, 0.8);
+    }
 }
 
 .top-bar {

@@ -46,29 +46,24 @@ class MoveableObject extends DrawableObject {
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // B -> T
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right && // L -> R
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom; // T -> B
-    }    
+    }
     /**
-     * Decreases the energy of the object by 1 and updates the last hit time if the energy is greater than 0.
+     * Decreases the energy of the object by 10 and updates the last hit time if the energy is greater than 0.
      */
     hit() {
-        this.energy -= 10;
-        if (this.energy < 0) {
-            this.energy = 0;
-        } else {
-            this.lastHit = new Date().getTime();
+        if (!this.isHit) {
+            this.energy = Math.max(0, this.energy - 10);
+            this.lastHit = this.energy > 0 ? new Date().getTime() : this.lastHit;
+            this.isHit = true;
         }
     }
     /**
-     * Decreases the bossEnergy of the object by 10 and updates the lastHitEndBoss time if the bossEnergy is greater than 0.
+     * Decreases the end boss's energy by 20 and updates the last hit time if the energy is greater than 0.
      */
     hitEndBoss() {
-        this.bossEnergy -= 10;
-        if (this.bossEnergy < 0) {
-            this.bossEnergy = 0;
-        } else {
-            this.lastHitEndBoss = new Date().getTime();
-        }
-    }
+        this.bossEnergy = Math.max(0, this.bossEnergy - 20);
+        this.lastHitEndBoss = this.bossEnergy > 0 ? new Date().getTime() : this.lastHitEndBoss;
+    }    
     /**
      * Checks if the object is currently hurt based on the time passed since the last hit.
      * @return {boolean} Returns true if the object is currently hurt, false otherwise.

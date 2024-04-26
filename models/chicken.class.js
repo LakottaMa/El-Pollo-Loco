@@ -1,4 +1,5 @@
 class Chicken extends MoveableObject {
+    enemyIsDead = false;
     height = 100;
     width = 100;
     y = 530;
@@ -16,7 +17,14 @@ class Chicken extends MoveableObject {
     DEAD_IMAGES = [
         '../img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
-    enemyIsDead = false;
+    /**
+     * Initializes a new instance of the Chicken class.
+     * Loads the first image from the IMAGES_WALKING array,
+     * loads the IMAGES_WALKING and DEAD_IMAGES arrays,
+     * sets the x position to a random value between 800 and 4100,
+     * sets the speed to a random value between 2 and 12,
+     * applies gravity, and starts animation.
+     */
     constructor() {
         super().loadImg(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -30,24 +38,29 @@ class Chicken extends MoveableObject {
      * Animates the chicken by moving it and playing its animation.
      */
     animate() {
-        setInterval(() => {
+        this.moveInterval = setInterval(() => {
             this.moveChicken();
         }, 1000 / 15);
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             this.animateChicken();
-        },10);
+        }, 10);
     }
     /**
-     * Moves the chicken by moving it left and playing its animation if the enemy is not dead.
+     * Moves the chicken object.
+     * If the enemy is not dead, moves the chicken to the left and plays the walking animation.
+     * If the enemy is dead, clears the move interval.
      */
     moveChicken() {
         if (!this.enemyIsDead) {
             this.moveLeft();
             this.playAnimation(this.IMAGES_WALKING);
+        } else {
+            clearInterval(this.moveInterval);
         }
     }
     /**
-     * Animates the chicken if it is dead and the dead sound has not been played yet.
+     * Animates the SmallChicken object by changing its image to the dead chicken image,
+     * adjusting its position and offset, playing the dead chicken sound, and clearing the animation interval.
      */
     animateChicken() {
         if (this.enemyIsDead && !this.deadSoundPlayed) {
@@ -57,6 +70,7 @@ class Chicken extends MoveableObject {
             dead_chicken_audio.currentTime = 0;
             dead_chicken_audio.play();
             this.deadSoundPlayed = true;
+            clearInterval(this.animationInterval);
         }
     }
 }

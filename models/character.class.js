@@ -5,7 +5,7 @@ class Character extends MoveableObject {
     height = 540;
     width = 240;
     y = 120;
-    speed = 1.5;
+    speed = 2;
     offset = {
         right: 70,
         left: 60,
@@ -79,6 +79,7 @@ class Character extends MoveableObject {
     constructor() {
         super().loadImg(this.IMAGES_IDLE[0]);
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
@@ -94,10 +95,10 @@ class Character extends MoveableObject {
     animate() {
         setInterval(() => {
             this.moveCharacter();
-        });
+        }, 1000 / 360);
         setInterval(() => {
             this.playCharacter();
-        }, 140);
+        }, 100);
     }
     /**
      * Moves the character based on its current state.
@@ -167,15 +168,11 @@ class Character extends MoveableObject {
      * @return {undefined} This function does not return a value.
      */
     playCharacter() {
-        if (this.isDead()) {
-            this.playDeadAnimation();
-        } else if (this.isHurt()) {
-            this.playHurtAnimation();
-        } else if (this.isAboveGround()) {
-            if (!this.isJumping) {
-                this.playIsJumpingAnimation();
-                this.isJumping = true;
-            }
+        if (this.isDead()) return this.playDeadAnimation();
+        if (this.isHurt()) return this.playHurtAnimation();
+        if (this.isAboveGround() && !this.isJumping) {
+            this.playIsJumpingAnimation();
+            this.isJumping = true;
         } else if (this.playLongIdle()) {
             this.playLongIdleAnimation();
         } else if (this.playBored()) {
@@ -252,7 +249,7 @@ class Character extends MoveableObject {
      */
     playBored() {
         let currentTime = new Date().getTime();
-        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 200;
+        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 300;
     }
     /**
      * Determines if the character has been idle for a long time.
@@ -260,6 +257,6 @@ class Character extends MoveableObject {
      */
     playLongIdle() {
         let currentTime = new Date().getTime();
-        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 4000;
+        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 6000;
     }
 }

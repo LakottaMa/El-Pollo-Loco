@@ -258,3 +258,27 @@ buttons.forEach(function (button) {
         this.blur();
     });
 });
+
+/**
+ * Toggles the visibility of the popover element.
+ */
+function togglePopover() {
+    var popover = document.getElementById('additional-info');
+    if (popover.style.display === 'block') {
+        popover.style.display = 'none';
+    } else {
+        popover.style.display = 'block';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var popoverButton = document.querySelector('.info-btn');
+    popoverButton.addEventListener('click', togglePopover);
+});
+
+document.addEventListener('click', function(event) {
+    var popover = document.getElementById('additional-info');
+    if (!popover.contains(event.target) && event.target !== document.querySelector('.info-btn')) {
+        popover.style.display = 'none';
+    }
+});

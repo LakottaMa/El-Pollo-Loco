@@ -4,6 +4,7 @@ class ThrowableObject extends MoveableObject {
     playAnimationInterval;
     bottleIsBroken = false;
     bossHit = false;
+    isThrown = false;
     THROW_BOTTLE_IMAGES = [
         '../img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         '../img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -19,21 +20,21 @@ class ThrowableObject extends MoveableObject {
         '../img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
     /**
-     * Constructor function for creating a ThrowableObject.
-     * @param {number} x - The x-coordinate of the ThrowableObject.
-     * @param {number} y - The y-coordinate of the ThrowableObject.
+     * Initializes a new instance of the ThrowableObject.
      * @param {boolean} [otherDirection=false] - The direction of the throwable object. Defaults to false.
      * @param {type} endboss - The endboss parameter description.
+     * @param {type} character - The character parameter description.
      */
-    constructor(x, y, otherDirection = false, endboss) {
+    constructor(otherDirection = false, endboss, character) {
         super().loadImg(this.THROW_BOTTLE_IMAGES[0]);
         this.loadImages(this.THROW_BOTTLE_IMAGES);
         this.loadImages(this.SPLASH_BOTTLE_IMAGES);
-        this.x = x;
-        this.y = y;
+        this.x = character.x + 100;
+        this.y = character.y + 300;
         this.width = 80;
         this.height = 120;
         this.endboss = endboss;
+        this.character = character;
         this.throw();
         this.animate();
         this.setThrowDirection(otherDirection);
@@ -42,19 +43,14 @@ class ThrowableObject extends MoveableObject {
      * Throws the object with a speed of 40 pixels/frame in the y-axis, applies gravity, and checks for collisions with the ground or endboss.
      */
     throw() {
+        if (this.isThrown) return;
         this.speedY = 40;
         this.applyGravity();
         this.throwInterval = setInterval(() => {
             this.bottleOnGround();
-            if (this.bottleIsBroken) {
-                this.stopBottleAnimation();
-            } else if (this.endboss.isHurtEndboss() && !this.bossHit) {
-                this.bottleIsBroken = true;
-                this.bossHit = true;
-                this.palySplashBottleAnimation();
-                this.removeAfterSplash();
-            }
+            this.checkBottleStatus();
         }, 20);
+        this.isThrown = true;
     }
     /**
      * Animates the object by playing either the throw bottle animation or the splash bottle animation based on the state of the object.
@@ -62,10 +58,10 @@ class ThrowableObject extends MoveableObject {
     animate() {
         this.playAnimationInterval = setInterval(() => {
             if (this.bottleIsBroken && this.isAboveGround()) {
-                this.palySplashBottleAnimation();
+                this.playSplashBottleAnimation();
             }
             else {
-                this.palyThrowBottleAnimation();
+                this.playThrowBottleAnimation();
             }
         }, 100);
     }
@@ -74,20 +70,29 @@ class ThrowableObject extends MoveableObject {
      * @param {boolean} otherDirection - If true, the object will be thrown to the left. If false, the object will be thrown to the right.
      */
     setThrowDirection(otherDirection) {
+        const increment = otherDirection ? -25 : 25;
         this.throwdirectionInterval = setInterval(() => {
-            if (!otherDirection) {
-                this.x += 25;
-            } else if (otherDirection) {
-                this.x -= 25;
+            this.x += increment;
+            if (this.hasReachedTargetPosition(otherDirection)) {
+                clearInterval(this.throwdirectionInterval);
             }
         }, 35);
-    }
+    }    
+    /**
+     * Determines if the current position has reached the target position.
+     * @param {boolean} otherDirection - Indicates if the target position is to the left (true) or right (false).
+     * @return {boolean} - Returns true if the current position has reached the target position, otherwise returns false.
+     */
+    hasReachedTargetPosition(otherDirection) {
+        const targetPosition = this.character.x + (!otherDirection ? 600 : -200);
+        return (!otherDirection && this.x >= targetPosition) || (otherDirection && this.x <= targetPosition);
+    }    
     /**
      * Plays the throw bottle animation.
      * @param {type} paramName - description of parameter
      * @return {type} description of return value
      */
-    palyThrowBottleAnimation() {
+    playThrowBottleAnimation() {
         this.playAnimation(this.THROW_BOTTLE_IMAGES);
     }
     /**
@@ -95,7 +100,7 @@ class ThrowableObject extends MoveableObject {
      * @param {type} paramName - description of parameter
      * @return {type} description of return value
      */
-    palySplashBottleAnimation() {
+    playSplashBottleAnimation() {
         this.playAnimation(this.SPLASH_BOTTLE_IMAGES);
     }
     /**
@@ -109,7 +114,23 @@ class ThrowableObject extends MoveableObject {
         clearInterval(this.throwdirectionInterval);
         setTimeout(() => {
             clearInterval(this.playAnimationInterval);
-        }, 400);
+        }, 160);
+    }
+    /**
+     * Checks the status of the bottle. If the bottle is broken, stops the bottle animation.
+     * If the endboss is hurt and the boss has not been hit yet, plays the splash bottle animation,
+     * sets the bottle as broken, sets the object as not thrown, and removes it after the splash animation.
+     */
+    checkBottleStatus() {
+        if (this.bottleIsBroken) {
+            this.stopBottleAnimation();
+        } else if (this.endboss.isHurtEndboss() && !this.bossHit) {
+            this.bossHit = true;
+            this.playSplashBottleAnimation();
+            this.bottleIsBroken = true;
+            this.isThrown = false;
+            this.removeAfterSplash();
+        }
     }
     /**
      * Checks if the bottle is on the ground and sets the `bottleIsBroken` flag to true and calls the `removeAfterSplash` function if it is.
@@ -117,6 +138,7 @@ class ThrowableObject extends MoveableObject {
     bottleOnGround() {
         if (this.y >= 520) {
             this.bottleIsBroken = true;
+            bottle_splash_audio.play();
             this.removeAfterSplash();
         }
     }

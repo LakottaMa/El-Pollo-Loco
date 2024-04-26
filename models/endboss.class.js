@@ -87,22 +87,28 @@ class Endboss extends MoveableObject {
         if (world.checkDistanceToBoss() < 300) {
             boss_attack_audio.play();
             this.playAnimation(this.IMAGES_ATTAKING);
-            this.speed = 25;
+            this.speed = 20;
             this.offset = {
                 right: 45,
-                left: -100,
+                left: -90,
                 bottom: 90,
                 top: 80
             };
         } else {
-            this.speed = 8;
-            this.offset = {
-                right: 45,
-                left: 70,
-                bottom: 90,
-                top: 80
-            };
+            this.resetOffsetAfterAttack();
         }
+    }
+    /**
+     * Resets the offset after an attack.
+     */
+    resetOffsetAfterAttack() {
+        this.speed = 8;
+        this.offset = {
+            right: 45,
+            left: 70,
+            bottom: 90,
+            top: 80
+        };
     }
     /**
      * Checks the distance to the boss and performs corresponding actions based on the distance.
@@ -134,6 +140,6 @@ class Endboss extends MoveableObject {
     playHurtAnimation() {
         bottle_hit_audio.play();
         this.playAnimation(this.IMAGES_HURT);
-        hurting_character_audio.play();
+        boss_hurting_audio.play();
     }
 }

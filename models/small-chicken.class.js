@@ -35,36 +35,40 @@ class SmallChicken extends MoveableObject {
         this.animate();
     }
     /**
-     * Animates the small chicken by moving it and playing its animation.
+     * Animates the SmallChicken object by moving it and playing its animation.
      */
     animate() {
-        setInterval(() => {
+        this.moveInterval = setInterval(() => {
             this.moveChicken();
-        }, 100);
-        setInterval(() => {
+        }, 1000 / 15);
+        this.animationInterval = setInterval(() => {
             this.animateChicken();
-        }, 100);
+        }, 10);
     }
     /**
-     * Moves the small chicken by moving it left and playing its animation if the enemy is not dead.
+     * Moves the chicken object.
      */
     moveChicken() {
         if (!this.enemyIsDead) {
             this.moveLeft();
             this.playAnimation(this.IMAGES_WALKING);
+        } else {
+            clearInterval(this.moveInterval);
         }
     }
     /**
-     * Animates the chicken if it is dead and the dead sound has not been played yet.
+     * Animates the SmallChicken object by changing its image to the dead chicken image,
+     * adjusting its position and offset, playing the dead chicken sound, and clearing the animation interval.
      */
     animateChicken() {
         if (this.enemyIsDead && !this.deadSoundPlayed) {
             this.loadImg(this.DEAD_IMAGES);
             this.y += 20;
-            this.offset.top = 72;
+            this.offset.top = 100;
             dead_chicken_audio.currentTime = 0;
-            dead_chickenSmall_audio.play();
+            dead_chicken_audio.play();
             this.deadSoundPlayed = true;
+            clearInterval(this.animationInterval);
         }
     }
 }

@@ -61,17 +61,19 @@ function checkMobileDevice() {
     let landscapeContainer = document.getElementById('landscape-orientation');
     let mobileControls = document.getElementById('mobile-controls');
     let mainContainer = document.getElementById('fullScreen');
-    if (isMobileDevice()) {
-        if (!isLandscapeOrientation()) {
+    function handleOrientationChange() {
+        if (isMobileDevice() && isLandscapeOrientation()) {
             landscapeContainer.classList.remove('d-none');
             mobileControls.classList.add('d-none');
             mainContainer.classList.add('d-none');
-        } else {
+        } else if (!isLandscapeOrientation()) {
             landscapeContainer.classList.add('d-none');
             mobileControls.classList.remove('d-none');
             mainContainer.classList.remove('d-none');
         }
     }
+    handleOrientationChange();
+    window.addEventListener('orientationchange', handleOrientationChange);
 }
 /**
  * Checks if the window is in landscape orientation.
@@ -175,7 +177,7 @@ function togglePopover() {
         popover.style.display = 'block';
     }
 }
-//
+
 document.addEventListener('DOMContentLoaded', function () {
     const popoverButton = document.querySelector('.info-btn');
     popoverButton.addEventListener('click', togglePopover);

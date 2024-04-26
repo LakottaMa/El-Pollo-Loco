@@ -21,7 +21,6 @@ class Character extends MoveableObject {
         '../img/2_character_pepe/2_walk/W-26.png'
     ];
     IMAGES_JUMPING = [
-        '../img/2_character_pepe/3_jump/J-33.png',
         '../img/2_character_pepe/3_jump/J-34.png',
         '../img/2_character_pepe/3_jump/J-35.png',
         '../img/2_character_pepe/3_jump/J-36.png',
@@ -95,7 +94,7 @@ class Character extends MoveableObject {
     animate() {
         setInterval(() => {
             this.moveCharacter();
-        }, 1000 / 360);
+        }, 1000 / 160);
         setInterval(() => {
             this.playCharacter();
         }, 100);
@@ -170,15 +169,24 @@ class Character extends MoveableObject {
     playCharacter() {
         if (this.isDead()) return this.playDeadAnimation();
         if (this.isHurt()) return this.playHurtAnimation();
-        if (this.isAboveGround() && !this.isJumping) {
-            this.playIsJumpingAnimation();
-            this.isJumping = true;
-        } else if (this.playLongIdle()) {
+        if (this.playLongIdle()) {
             this.playLongIdleAnimation();
         } else if (this.playBored()) {
             this.playIdleAnimation();
+        } else if (this.isAboveGround()) {
+            this.characterJumping();
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playMoveAnimation();
+        }
+    }
+    /**
+     * Checks if the character is above the ground and not currently jumping,
+     * then plays the jumping animation and sets the `isJumping` property to true.
+     */
+    characterJumping() {
+        if (this.isAboveGround()) {
+            jumping_audio.play();
+            this.playAnimation(this.IMAGES_JUMPING);
         }
     }
     /**
@@ -207,18 +215,11 @@ class Character extends MoveableObject {
      * `IMAGES_JUMPING` array, at which point it stops the animation and sets the
      * `isJumping` property to `false`.
      */
-    playIsJumpingAnimation() {
-        let index = 0;
-        jumping_audio.play();
-        const jumpinerinterval = setInterval(() => {
-            this.loadImg(this.IMAGES_JUMPING[index]);
-            index++;
-            if (index >= this.IMAGES_JUMPING.length) {
-                clearInterval(jumpinerinterval);
-                this.isJumping = false;
-            }
-        }, 1000 / 10);
+    playIsJumpingAnimation() { // Wenn der Charakter nicht springt, wird die Methode verlassen
+
+        
     }
+
     /**
      * Plays the move animation for the character.
      */

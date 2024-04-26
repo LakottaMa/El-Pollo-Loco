@@ -70,6 +70,7 @@ h2 {
     position: absolute;
     top: 6px;
     right: 12px;
+    width: 48px;
     text-align: center;
     font-size: 36px;
     a{

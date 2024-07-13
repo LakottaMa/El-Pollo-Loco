@@ -230,7 +230,6 @@ class World {
      * Calculates the distance between the character and the endboss.
      */
     checkDistanceToBoss() {
-        console.log(this.character.x, this.endboss.x);
         return Math.abs(this.character.x - this.endboss.x);
     }
 

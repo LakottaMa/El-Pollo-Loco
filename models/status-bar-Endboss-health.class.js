@@ -31,7 +31,7 @@ class HealthBarEndboss extends DrawableObject {
         let path = this.IMAGES[this.resolveImageIndex(percentage)];
         this.img = this.imageCache[path];
     }
-    
+
     /**
      * Resolves the index of the image based on the given percentage.
      * @param {number} percentage - The percentage to resolve the image index for.

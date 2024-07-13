@@ -37,6 +37,39 @@ class World {
     }
 
     /**
+     * Draws the game world on the canvas by clearing the canvas, translating the context to the camera position,
+     * and calling the `addObjectToMap` function for each object in the level. The `addToMap` function is called
+     * for the character object. After drawing all the objects, the context is translated back to the original
+     * position and fixed objects such as health bar, coins bar, and bottle bar are added to the map.
+     * Finally, the function calls itself recursively using `requestAnimationFrame` to create an animation loop.
+    */
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.translate(this.camera_x, 0);
+        this.addObjectToMap(this.level.backgroundObjects);
+        this.addObjectToMap(this.level.clouds);
+        this.addToMap(this.endboss);
+        this.addObjectToMap(this.level.enemies);
+        this.addObjectToMap(this.level.coins);
+        this.addObjectToMap(this.level.bottle);
+        this.addObjectToMap(this.throwableObjects);
+        this.addToMap(this.character);
+        this.ctx.translate(-this.camera_x, 0);
+        this.addToMap(this.healthBar);
+        this.addToMap(this.coinsBar);
+        this.addToMap(this.bottleBar);
+        this.ctx.translate(this.camera_x, 0);
+        this.ctx.translate(-this.camera_x, 0);
+        if (this.endboss.isMoved === true) {
+            this.addToMap(this.HealthBarEndboss);
+        }
+        let self = this;
+        requestAnimationFrame(function () {
+            self.draw();
+        })
+    }
+
+    /**
      * Runs the game loop, which checks for collisions, throws objects, checks for endboss collisions,
      * collects bottles and coins, checks for collision from above on chicks, and checks the distance to the boss.
      * This function is called once every 160 milliseconds for the first setInterval and once every 1 millisecond
@@ -45,17 +78,14 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
-            this.checkThrowObject();
             this.checkEnemyCollisions();
-            setTimeout(() => {
-            this.checkDistanceToBoss();
-            }, 180);
         }, 180);
         setInterval(() => {
+            this.checkThrowObject();
             this.checkCollectableBottle();
             this.checkCollectableCoins();
             this.checkCollisionFromAboveOnChicks();
-        }, 1);
+        }, 50);
     }
 
     /**
@@ -70,7 +100,7 @@ class World {
                     this.healthBar.setPercentage(this.character.energy);
                     setTimeout(() => {
                         this.character.isHit = false;
-                    }, 100);
+                    }, 200);
                 }
             });
         }
@@ -197,46 +227,11 @@ class World {
     }
 
     /**
-     * Checks the distance to the boss, logs it and the result of the condition,
-     * and adds the HealthBarEndboss to the map if the distance is less than 800.
+     * Calculates the distance between the character and the endboss.
      */
     checkDistanceToBoss() {
-        let distanceToBoss = Math.abs(this.character.x - this.endboss.x);
-        if (distanceToBoss < 1000) {
-            this.addToMap(this.HealthBarEndboss);
-        }
-        return distanceToBoss;
-    }
-
-    /**
-     * Draws the game world on the canvas by clearing the canvas, translating the context to the camera position,
-     * and calling the `addObjectToMap` function for each object in the level. The `addToMap` function is called
-     * for the character object. After drawing all the objects, the context is translated back to the original
-     * position and fixed objects such as health bar, coins bar, and bottle bar are added to the map.
-     * Finally, the function calls itself recursively using `requestAnimationFrame` to create an animation loop.
-     */
-    draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectToMap(this.level.backgroundObjects);
-        this.addObjectToMap(this.level.clouds);
-        this.addToMap(this.endboss);
-        this.addObjectToMap(this.level.enemies);
-        this.addObjectToMap(this.level.coins);
-        this.addObjectToMap(this.level.bottle);
-        this.addObjectToMap(this.throwableObjects);
-        this.addToMap(this.character);
-        this.ctx.translate(-this.camera_x, 0);
-        this.checkDistanceToBoss();
-        this.addToMap(this.healthBar);
-        this.addToMap(this.coinsBar);
-        this.addToMap(this.bottleBar);
-        this.ctx.translate(this.camera_x, 0);
-        this.ctx.translate(-this.camera_x, 0);
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        })
+        console.log(this.character.x, this.endboss.x);
+        return Math.abs(this.character.x - this.endboss.x);
     }
 
     /**

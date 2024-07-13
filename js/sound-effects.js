@@ -39,6 +39,18 @@ let soundEffects = [
     snore_character_audio
 ];
 
+window.addEventListener('load', preloadAudio);
+
+/**
+ * Preloads all audio files and sets their volume based on the value of the volumeSlider element.
+ */
+function preloadAudio() {
+    for (let audio of soundEffects) {
+        audio.volume = volumeSlider.value / 100;
+        audio.load();
+    }
+}
+
 /**
  * Initializes the sound state on page load.
  */

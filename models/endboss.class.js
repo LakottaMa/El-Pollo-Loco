@@ -3,6 +3,7 @@ class Endboss extends MoveableObject {
     width = 348;
     y = 250;
     speed = 8;
+    isMoved = false;
     offset = {
         right: 45,
         left: 70,
@@ -46,7 +47,7 @@ class Endboss extends MoveableObject {
         '../img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
     world;
-    
+
     /**
      * Initializes a new instance of the Endboss class.
      * @param {number} x - The x-coordinate of the Endboss instance.
@@ -67,17 +68,22 @@ class Endboss extends MoveableObject {
      */
     animate() {
         setInterval(() => {
-            if (this.EndbossIsDead()) {
-                this.playDeadAnimation();
-            } else if (this.isHurtEndboss()) {
-                this.playHurtAnimation();
-            } else {
+            if (!this.EndbossIsDead()) {
                 this.isMove();
             }
-        }, 160);
+            if (this.isHurtEndboss()) {
+                this.playHurtAnimation();
+            }
+            if (this.EndbossIsDead()) {
+                this.playDeadAnimation();
+            }
+        }, 140);
+
         setInterval(() => {
-            this.isAttacking();
-        }, 100);
+            if (!this.EndbossIsDead()) {
+                this.isAttacking();
+            }
+        }, 800);
     }
 
     /**
@@ -119,12 +125,17 @@ class Endboss extends MoveableObject {
      * Checks the distance to the boss and performs corresponding actions based on the distance.
      */
     isMove() {
+        this.isMoved = false;
         if (world.checkDistanceToBoss() <= 850) {
             this.playAnimation(this.IMAGES_WALKING);
             this.x -= this.speed;
+            this.isMoved = true;
         } else if (world.checkDistanceToBoss() < 1000) {
             boss_attack_audio.play();
             this.playAnimation(this.IMAGES_ALERT);
+            this.isMoved = true;
+        } else {
+            this.isMoved = false;
         }
     }
 
@@ -140,7 +151,7 @@ class Endboss extends MoveableObject {
             game_victory_audio.play();
         }, 1200);
     }
-    
+
     /**
      * Plays the hurt animation for the end boss.
      */

@@ -14,6 +14,7 @@ let mainContainer = document.getElementById('fullScreen');
  * Initializes the canvas and creates a new World instance.
  */
 function init() {
+    preloadAudio();
     updateOrientationLayout();
     canvas = document.getElementById("canvas");
     initStartScreen();

@@ -5,6 +5,7 @@ class Level {
     coins;
     bottle;
     level_end_x = 3800;
+
     /**
      * Initializes a new instance of the Level class.
      * @param {Array} enemies - An array of enemy objects.

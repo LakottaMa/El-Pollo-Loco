@@ -11,6 +11,7 @@ class Coins extends MoveableObject {
         '../img/8_coin/coin_1.png',
         '../img/8_coin/coin_2.png'
     ];
+
     /**
      * Initializes a new instance of the Coins class.
      * @param {number} x - The x-coordinate of the Coins instance.
@@ -22,6 +23,7 @@ class Coins extends MoveableObject {
         this.y = 50 + Math.random() * 200;
         this.animate();
     }
+
     /**
      * Animates the coin object by continuously playing an animation using the images in the COIN_IMAGES array.
      * The animation is played at an interval of 200 milliseconds.

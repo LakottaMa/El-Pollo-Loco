@@ -46,6 +46,7 @@ class Endboss extends MoveableObject {
         '../img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
     world;
+    
     /**
      * Initializes a new instance of the Endboss class.
      * @param {number} x - The x-coordinate of the Endboss instance.
@@ -60,6 +61,7 @@ class Endboss extends MoveableObject {
         this.x = 3800;
         this.animate();
     }
+
     /**
      * Animates the Endboss instance by periodically checking its state and playing corresponding animations.
      */
@@ -77,6 +79,7 @@ class Endboss extends MoveableObject {
             this.isAttacking();
         }, 100);
     }
+
     /**
      * Checks the distance to the boss and performs corresponding actions based on the distance.
      * If the distance is less than 300, plays a boss attack audio, plays the attacking animation,
@@ -98,6 +101,7 @@ class Endboss extends MoveableObject {
             this.resetOffsetAfterAttack();
         }
     }
+
     /**
      * Resets the offset after an attack.
      */
@@ -110,6 +114,7 @@ class Endboss extends MoveableObject {
             top: 80
         };
     }
+
     /**
      * Checks the distance to the boss and performs corresponding actions based on the distance.
      */
@@ -122,6 +127,7 @@ class Endboss extends MoveableObject {
             this.playAnimation(this.IMAGES_ALERT);
         }
     }
+
     /**
      * Plays the dead animation for the end boss.
      */
@@ -134,6 +140,7 @@ class Endboss extends MoveableObject {
             game_victory_audio.play();
         }, 1200);
     }
+    
     /**
      * Plays the hurt animation for the end boss.
      */

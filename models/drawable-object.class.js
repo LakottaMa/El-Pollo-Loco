@@ -6,6 +6,7 @@ class DrawableObject {
     height = 720;
     imageCache = {}
     currentImg = 0;
+
     /**
      * Loads an image from the specified path.
      * @param {string} path - The path of the image file.
@@ -14,6 +15,7 @@ class DrawableObject {
         this.img = new Image();
         this.img.src = path;
     }
+
     /**
      * Loads an array of image paths and caches them in the `imageCache` object.
      * @param {Array<string>} arr - An array of image paths to load.
@@ -25,6 +27,7 @@ class DrawableObject {
             this.imageCache[path] = img;
         });
     }
+
     /**
      * Draws an image on the canvas context at the specified position and size.
      * @param {CanvasRenderingContext2D} ctx - The canvas rendering context to draw on.
@@ -36,5 +39,5 @@ class DrawableObject {
             console.log('error loading image', e);
             console.log('tried to load', this.img.src);
         }
-    }    
+    }
 }

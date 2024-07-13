@@ -38,12 +38,14 @@ let soundEffects = [
     boss_hurting_audio,
     snore_character_audio
 ];
+
 /**
  * Initializes the sound state on page load.
  */
 function soundMutedOnload() {
     toggleSound(!isMuted);
 }
+
 /**
  * Toggles the sound on and off based on the current mute state.
  */
@@ -56,6 +58,7 @@ function toggleSound() {
         isMuted = true;
     }
 }
+
 /**
  * Turns on the sound effects and plays the background music.
  */
@@ -67,6 +70,7 @@ function soundEffectsOn() {
     playBackgroundMusic();
     isMuted = false;
 }
+
 /**
  * Turns off the sound effects by muting all audio elements and hiding the volume slider.
  */
@@ -77,6 +81,7 @@ function soundEffectsOff() {
         audio.muted = true;
     }
 }
+
 /**
  * Plays the background music with a reduced volume and set to loop.
  */
@@ -84,6 +89,7 @@ function playBackgroundMusic() {
     background_audio.play();
     background_audio.loop = true;
 }
+
 /**
  * Changes the volume of all sound effects.
  * @param {number} volume - The new volume value (between 0 and 100).
@@ -94,6 +100,7 @@ function changeVolume(volume) {
         audio.volume = normalizedVolume;
     }
 }
+
 /**
  * Initializes the volume based on the value of the volume slider.
  */

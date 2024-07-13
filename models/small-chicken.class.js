@@ -17,6 +17,7 @@ class SmallChicken extends MoveableObject {
     DEAD_IMAGES = [
         '../img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
+
     /**
      * Initializes a new instance of the SmallChicken class.
      * Loads the first image from the IMAGES_WALKING array,
@@ -34,6 +35,7 @@ class SmallChicken extends MoveableObject {
         this.applyGravity();
         this.animate();
     }
+
     /**
      * Animates the SmallChicken object by moving it and playing its animation.
      */
@@ -45,6 +47,7 @@ class SmallChicken extends MoveableObject {
             this.animateChicken();
         }, 10);
     }
+
     /**
      * Moves the chicken object.
      */
@@ -56,6 +59,7 @@ class SmallChicken extends MoveableObject {
             clearInterval(this.moveInterval);
         }
     }
+    
     /**
      * Animates the SmallChicken object by changing its image to the dead chicken image,
      * adjusting its position and offset, playing the dead chicken sound, and clearing the animation interval.

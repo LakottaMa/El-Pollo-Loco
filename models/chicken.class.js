@@ -17,6 +17,7 @@ class Chicken extends MoveableObject {
     DEAD_IMAGES = [
         '../img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
+
     /**
      * Initializes a new instance of the Chicken class.
      * Loads the first image from the IMAGES_WALKING array,
@@ -34,6 +35,7 @@ class Chicken extends MoveableObject {
         this.applyGravity();
         this.animate();
     }
+
     /**
      * Animates the chicken by moving it and playing its animation.
      */
@@ -45,6 +47,7 @@ class Chicken extends MoveableObject {
             this.animateChicken();
         }, 10);
     }
+
     /**
      * Moves the chicken object.
      * If the enemy is not dead, moves the chicken to the left and plays the walking animation.
@@ -58,6 +61,7 @@ class Chicken extends MoveableObject {
             clearInterval(this.moveInterval);
         }
     }
+
     /**
      * Animates the SmallChicken object by changing its image to the dead chicken image,
      * adjusting its position and offset, playing the dead chicken sound, and clearing the animation interval.

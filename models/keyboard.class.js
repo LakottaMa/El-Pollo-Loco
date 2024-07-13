@@ -4,24 +4,28 @@ class Keyboard {
         this.RIGHT = false;
         this.UP = false;
         this.SPACE = false;
-        // Event Listener für keydown und keyup
         window.addEventListener("keydown", this.handleKeyDown.bind(this));
         window.addEventListener("keyup", this.handleKeyUp.bind(this));
     }
+
     /**
      * Handles the keydown event by updating the key state.
      * @param {KeyboardEvent} event - The keydown event object.
      */
     handleKeyDown(event) {
         this.updateKeyState(event.key, true);
+        if (event.cancelable) event.preventDefault();
     }
+
     /**
      * Handles the keyup event by updating the key state.
      * @param {KeyboardEvent} event - The keyup event object.
      */
     handleKeyUp(event) {
         this.updateKeyState(event.key, false);
+        if (event.cancelable) event.preventDefault();
     }
+
     /**
      * Updates the key state based on the provided key and pressed state.
      * @param {string} key - The key to update the state for.
@@ -49,6 +53,7 @@ class Keyboard {
         }
     }
 }
+
 /**
  * Handles button clicks and updates the corresponding keyboard state based on the action.
  * @param {string} action - The action associated with the button click.
@@ -72,36 +77,30 @@ function handleButtonClick(action, isPressed) {
             break;
     }
 }
-// Event Listener für mobile controls
-const controlButtons = document.querySelectorAll('.mobile-control-btn');
-controlButtons.forEach(button => {
-    const action = button.textContent.trim().toLowerCase();
-    /**
-     * Handles the button press event by calling the handleButtonClick function with the provided action and true for isPressed,
-     * and adds the 'active' class to the button element.
-     * @param {string} action - The action associated with the button press.
-     * @param {HTMLElement} button - The button element.
-     */
-    function handleButtonPress() {
-        handleButtonClick(action, true);
-        button.classList.add('active');
+
+const mobileControlsContainer = document.querySelector('.mobile-controls');
+mobileControlsContainer.addEventListener('touchstart', handleMobileControlTouch);
+mobileControlsContainer.addEventListener('touchend', handleMobileControlTouch);
+mobileControlsContainer.addEventListener('touchcancel', handleMobileControlTouch);
+mobileControlsContainer.addEventListener('touchmove', (event) => {
+    if (event.cancelable) event.preventDefault();
+});
+
+/**
+ * Function to handle touch events on mobile controls.
+ * @param {Event} event - The touch event object.
+ */
+function handleMobileControlTouch(event) {
+    if (event.type === 'touchstart') {
+        event.preventDefault();
     }
-    /**
-     * Handles the button release event by calling the handleButtonClick function with the provided action and false for isPressed,
-     * and removes the 'active' class from the button element.
-     * @param {string} action - The action associated with the button release.
-     * @param {HTMLElement} button - The button element.
-     */
-    function handleButtonRelease() {
-        handleButtonClick(action, false);
+    const button = event.target.closest('.mobile-control-btn');
+    if (!button) return;
+    const action = button.textContent.trim().toLowerCase();
+    handleButtonClick(action, event.type === 'touchstart');
+    if (event.type === 'touchstart') {
+        button.classList.add('active');
+    } else {
         button.classList.remove('active');
     }
-    button.addEventListener('mousedown', handleButtonPress);
-    button.addEventListener('mouseup', handleButtonRelease);
-    button.addEventListener('touchstart', (event) => {
-        if (event.cancelable) event.preventDefault();
-        handleButtonPress();
-    });
-    button.addEventListener('touchend', handleButtonRelease);
-    button.addEventListener('touchcancel', handleButtonRelease);
-});
+}

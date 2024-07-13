@@ -14,6 +14,7 @@ class World {
     healthBar = new HealthBar();
     HealthBarEndboss = new HealthBarEndboss();
     throwableObjects = [];
+
     /**
      * Initializes a new instance of the constructor function.
      * @param {Object} canvas - The canvas element to be used for rendering.
@@ -27,12 +28,14 @@ class World {
         this.setWorld();
         this.run();
     }
+
     /**
      * Sets the world property of the character object to this World instance.
      */
     setWorld() {
         this.character.world = this;
     }
+
     /**
      * Runs the game loop, which checks for collisions, throws objects, checks for endboss collisions,
      * collects bottles and coins, checks for collision from above on chicks, and checks the distance to the boss.
@@ -44,7 +47,9 @@ class World {
             this.checkCollisions();
             this.checkThrowObject();
             this.checkEnemyCollisions();
+            setTimeout(() => {
             this.checkDistanceToBoss();
+            }, 180);
         }, 180);
         setInterval(() => {
             this.checkCollectableBottle();
@@ -52,6 +57,7 @@ class World {
             this.checkCollisionFromAboveOnChicks();
         }, 1);
     }
+
     /**
      * Checks for collisions between the character and enemies in the level.
      * If a collision is detected, the character is hit and the health bar is updated.
@@ -69,6 +75,7 @@ class World {
             });
         }
     }
+
     /**
      * Checks for collisions between the throwable objects and enemies in the level.
      * If a collision is detected, the corresponding enemy is marked as dead,
@@ -80,6 +87,7 @@ class World {
             this.checkEnemyBottleCollision(bottle);
         });
     }
+
     /**
      * Checks collision between the throwable object and the endboss.
      * If a collision is detected and the endboss has not been hit, marks the endboss as hit
@@ -93,6 +101,7 @@ class World {
             this.HealthBarEndboss.setPercentage(this.endboss.bossEnergy);
         }
     }
+
     /**
      * Checks collision between the throwable object and enemies.
      * If a collision is detected with an enemy that has not been hit, marks the enemy as hit
@@ -108,6 +117,7 @@ class World {
             }
         });
     }
+
     /**
      * Checks for collisions between the character and enemies in the level from above.
      * If a collision is detected and the character is above ground and moving downwards,
@@ -121,6 +131,7 @@ class World {
             }
         });
     }
+
     /**
      * Executes a falling interval for the given enemy object.
      * @param {Object} enemy - The enemy object to execute the interval for.
@@ -133,6 +144,7 @@ class World {
             }
         }, 100);
     }
+
     /**
      * Checks if the character is colliding with any coins in the level and
      * updates the coin amount and coin bar percentage accordingly.
@@ -148,6 +160,7 @@ class World {
             }
         });
     }
+
     /**
      * Checks if the character is colliding with any bottles in the level
      * and updates the bottle amount and bottle bar percentage accordingly.
@@ -163,6 +176,7 @@ class World {
             }
         });
     }
+
     /**
      * Checks if the space key is pressed and throws a bottle object accordingly.
      * This function checks if the space key is pressed and the bottle amount is greater than 0.
@@ -181,6 +195,7 @@ class World {
             }
         }
     }
+
     /**
      * Checks the distance to the boss, logs it and the result of the condition,
      * and adds the HealthBarEndboss to the map if the distance is less than 800.
@@ -192,6 +207,7 @@ class World {
         }
         return distanceToBoss;
     }
+
     /**
      * Draws the game world on the canvas by clearing the canvas, translating the context to the camera position,
      * and calling the `addObjectToMap` function for each object in the level. The `addToMap` function is called
@@ -222,6 +238,7 @@ class World {
             self.draw();
         })
     }
+
     /**
      * Iterates through the objects array and adds each object to the map using `addToMap`.
      * @param {Array} objects - The array of objects to add to the map.
@@ -231,6 +248,7 @@ class World {
             this.addToMap(o);
         });
     }
+
     /**
      * Adds the given object to the map, drawing it and its frame. If the object has the property "otherDirection",
      * the image of the object is flipped before drawing and then flipped back after drawing.
@@ -241,11 +259,11 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
     }
+
     /**
      * Flips the image of the given object by translating the context to the right by the object's width,
      * scaling the context horizontally by -1, and updating the object's x coordinate to be negative.
@@ -257,6 +275,7 @@ class World {
         this.ctx.scale(-1, 1);
         mo.x = mo.x * -1;
     }
+
     /**
      * Flips the image of the given object back to its original state by restoring the context and updating the object's x coordinate.
      * @param {Object} mo - The object whose image is to be flipped back.

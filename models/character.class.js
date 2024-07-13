@@ -69,6 +69,7 @@ class Character extends MoveableObject {
         '../img/2_character_pepe/1_idle/long_idle/I-19.png',
         '../img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
+
     /**
      * Initializes a new instance of the Character class.
      * This constructor loads the necessary images for the character's states
@@ -88,6 +89,7 @@ class Character extends MoveableObject {
         this.applyGravity();
         this.animate();
     }
+
     /**
      * Animates the character by moving it and playing its animation.
      */
@@ -99,6 +101,7 @@ class Character extends MoveableObject {
             this.playCharacter();
         }, 100);
     }
+
     /**
      * Moves the character based on its current state.
      * This function checks if the character can move right, left, or jump.
@@ -121,6 +124,7 @@ class Character extends MoveableObject {
         }
         this.world.camera_x = -this.x + 200;
     }
+
     /**
      * Determines if the character can move to the right.
      * @return {boolean} Returns true if the character can move to the right, false otherwise.
@@ -128,6 +132,7 @@ class Character extends MoveableObject {
     canMoveRight() {
         return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
     }
+
     /**
      * Moves the object to the right by calling the super class's moveRight method and sets otherDirection to false.
      */
@@ -135,6 +140,7 @@ class Character extends MoveableObject {
         super.moveRight();
         this.otherDirection = false;
     }
+
     /**
      * Determines if the character can move to the left.
      * @return {boolean} Returns true if the character can move to the left, false otherwise.
@@ -142,6 +148,7 @@ class Character extends MoveableObject {
     canMoveLeft() {
         return this.world.keyboard.LEFT && this.x > -1000;
     }
+
     /**
      * Moves the object to the left by calling the superclass's moveLeft method and sets otherDirection to true.
      */
@@ -149,6 +156,7 @@ class Character extends MoveableObject {
         super.moveLeft();
         this.otherDirection = true;
     }
+
     /**
      * Determines if the character can jump.
      * @return {boolean} Returns true if the character can jump, false otherwise.
@@ -156,12 +164,14 @@ class Character extends MoveableObject {
     canJump() {
         return this.world.keyboard.UP && !this.isAboveGround();
     }
+
     /**
      * Jumps using the super class's jump method.
      */
     jump() {
         super.jump();
     }
+
     /**
      * Plays the character animation based on its state.
      * @return {undefined} This function does not return a value.
@@ -179,6 +189,7 @@ class Character extends MoveableObject {
             this.playMoveAnimation();
         }
     }
+
     /**
      * Checks if the character is above the ground and not currently jumping,
      * then plays the jumping animation and sets the `isJumping` property to true.
@@ -189,6 +200,7 @@ class Character extends MoveableObject {
             this.playAnimation(this.IMAGES_JUMPING);
         }
     }
+
     /**
      * Plays the dead animation for the character.
      */
@@ -200,24 +212,13 @@ class Character extends MoveableObject {
             gameOver();
         }, 1200);
     }
+
     /**
      * Plays the hurt animation for the end boss.
      */
     playHurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
         hurting_character_audio.play();
-    }
-    /**
-     * Plays the jumping animation for the character.
-     * This function starts playing the jumping animation by incrementing an index
-     * and loading the corresponding image from the `IMAGES_JUMPING` array. It
-     * continues playing the animation until the index reaches the length of the
-     * `IMAGES_JUMPING` array, at which point it stops the animation and sets the
-     * `isJumping` property to `false`.
-     */
-    playIsJumpingAnimation() { // Wenn der Charakter nicht springt, wird die Methode verlassen
-
-        
     }
 
     /**
@@ -228,6 +229,7 @@ class Character extends MoveableObject {
         this.playAnimation(this.IMAGES_WALKING);
         walking_audio.play();
     }
+
     /**
      * Plays the idle animation for the character.
      * This function plays the idle animation by calling the `playAnimation` method
@@ -237,6 +239,7 @@ class Character extends MoveableObject {
     playIdleAnimation() {
         this.playAnimation(this.IMAGES_IDLE);
     }
+
     /**
      * Plays the long idle animation for the character.
      */
@@ -244,6 +247,7 @@ class Character extends MoveableObject {
         this.playAnimation(this.IMAGES_LONG_IDLE);
         snore_character_audio.play();
     }
+
     /**
      * Determines if the character is bored based on the time since the last move.
      * @return {boolean} Returns true if the character is bored, false otherwise.
@@ -252,6 +256,7 @@ class Character extends MoveableObject {
         let currentTime = new Date().getTime();
         return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 300;
     }
+
     /**
      * Determines if the character has been idle for a long time.
      * @return {boolean} Returns true if the character has been idle for more than 4000 milliseconds, false otherwise.

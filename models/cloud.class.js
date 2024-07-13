@@ -1,6 +1,7 @@
 class Cloud extends MoveableObject {
     width = 640;
     height = 360;
+
     /**
      * Initializes a new instance of the Cloud class.
      * @param {string} imagePath - The path of the image to be loaded.
@@ -11,6 +12,7 @@ class Cloud extends MoveableObject {
         this.animate();
         this.speed = 0.2;
     }
+
     /**
      * Animates the object by continuously moving it to the left at a constant rate.
      * This function uses the setInterval method to repeatedly call the moveLeft method

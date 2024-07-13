@@ -14,6 +14,7 @@ class MoveableObject extends DrawableObject {
         bottom: 0
     }
     applygravityInterval;
+
     /**
      * Applies gravity to the object, causing it to move downwards at a constant rate.
      */
@@ -25,6 +26,7 @@ class MoveableObject extends DrawableObject {
             }
         }, 1000 / 40);
     }
+
     /**
      * Checks if the object is above the ground.
      * @return {boolean} True if the object is above the ground, false otherwise.
@@ -36,6 +38,7 @@ class MoveableObject extends DrawableObject {
             return this.y < 110;
         }
     }
+
     /**
      * Checks if the current object is colliding with another object.
      * @param {Object} mo - The other object to check collision with.
@@ -47,6 +50,7 @@ class MoveableObject extends DrawableObject {
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right && // L -> R
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom; // T -> B
     }
+
     /**
      * Decreases the energy of the object by 10 and updates the last hit time if the energy is greater than 0.
      */
@@ -57,6 +61,7 @@ class MoveableObject extends DrawableObject {
             this.isHit = true;
         }
     }
+
     /**
      * Decreases the end boss's energy by 20 and updates the last hit time if the energy is greater than 0.
      */
@@ -64,6 +69,7 @@ class MoveableObject extends DrawableObject {
         this.bossEnergy = Math.max(0, this.bossEnergy - 20);
         this.lastHitEndBoss = this.bossEnergy > 0 ? new Date().getTime() : this.lastHitEndBoss;
     }
+
     /**
      * Checks if the object is currently hurt based on the time passed since the last hit.
      * @return {boolean} Returns true if the object is currently hurt, false otherwise.
@@ -73,6 +79,7 @@ class MoveableObject extends DrawableObject {
         timepassed = timepassed / 400;
         return timepassed < 1;
     }
+
     /**
      * Checks if the object is currently hurt based on the time passed since the last hit.
      * @return {boolean} Returns true if the object is currently hurt, false otherwise.
@@ -82,6 +89,7 @@ class MoveableObject extends DrawableObject {
         timepassed = timepassed / 400;
         return timepassed < 1;
     }
+
     /**
      * Determines if the object is dead.
      * @return {boolean} Returns true if the object is dead, false otherwise.
@@ -93,6 +101,7 @@ class MoveableObject extends DrawableObject {
             return false;
         }
     }
+
     /**
      * Determines if the end boss is dead based on its bossEnergy.
      * @return {boolean} Returns true if the end boss is dead, false otherwise.
@@ -104,6 +113,7 @@ class MoveableObject extends DrawableObject {
             return false;
         }
     }
+
     /**
      * Plays an animation using the provided images array.
      * @param {Array} images - An array of image paths to play the animation.
@@ -114,6 +124,7 @@ class MoveableObject extends DrawableObject {
         this.img = this.imageCache[path];
         this.currentImg++;
     }
+
     /**
      * Moves the object to the right by a specified speed.
      * This function increments the x-coordinate of the object by the value of the speed property.
@@ -122,6 +133,7 @@ class MoveableObject extends DrawableObject {
     moveRight() {
         this.x += this.speed;
     }
+
     /**
      * Moves the object to the left by a specified speed.
      * This function decrements the x-coordinate of the object by the value of the speed property.
@@ -130,6 +142,7 @@ class MoveableObject extends DrawableObject {
     moveLeft() {
         this.x -= this.speed;
     }
+
     /**
      * Sets the speedY property of the object to 40, simulating a jump.
      */

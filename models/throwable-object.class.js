@@ -77,7 +77,7 @@ class ThrowableObject extends MoveableObject {
                 clearInterval(this.throwdirectionInterval);
             }
         }, 35);
-    }    
+    }
     /**
      * Determines if the current position has reached the target position.
      * @param {boolean} otherDirection - Indicates if the target position is to the left (true) or right (false).
@@ -86,7 +86,7 @@ class ThrowableObject extends MoveableObject {
     hasReachedTargetPosition(otherDirection) {
         const targetPosition = this.character.x + (!otherDirection ? 600 : -200);
         return (!otherDirection && this.x >= targetPosition) || (otherDirection && this.x <= targetPosition);
-    }    
+    }
     /**
      * Plays the throw bottle animation.
      * @param {type} paramName - description of parameter

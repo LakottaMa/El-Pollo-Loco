@@ -11,6 +11,7 @@ class BottleOnGround extends MoveableObject {
     '../img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
     '../img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
   ];
+
   /**
    * Initializes a new instance of the class.
    * @param {number} x - The x-coordinate of the bottle on the ground.
@@ -21,6 +22,7 @@ class BottleOnGround extends MoveableObject {
     this.x = x;
     this.y = 520;
   }
+
   /**
    * Returns a random image path from the GROUND_BOTTLE_IMAGES array.
    * @return {string} A random image path.

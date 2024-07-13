@@ -8,6 +8,7 @@ class BottleBar extends DrawableObject {
         './img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
     ];
     amount = World.bottleAmount;
+
     /**
      * Initializes a new instance of the constructor function.
      */
@@ -20,6 +21,7 @@ class BottleBar extends DrawableObject {
         this.height = 60;
         this.setPercentage(this.amount);
     }
+
     /**
      * Sets the percentage of the amount and updates the image accordingly.
      * @param {number} amount - The amount to set the percentage for.
@@ -30,6 +32,7 @@ class BottleBar extends DrawableObject {
         let path = this.IMAGES[index];
         this.img = this.imageCache[path];
     }
+    
     /**
      * Resolves the index of the image based on the given amount.
      * @param {number} amount - The amount to resolve the image index for.

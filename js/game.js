@@ -14,10 +14,10 @@ let mainContainer = document.getElementById('fullScreen');
  * Initializes the canvas and creates a new World instance.
  */
 function init() {
+    initStartScreen();
+    canvas = document.getElementById("canvas");
     preloadAudio();
     updateOrientationLayout();
-    canvas = document.getElementById("canvas");
-    initStartScreen();
     soundMutedOnload();
     initVolume();
 }
@@ -89,12 +89,10 @@ function startingGame() {
     clearAllIntervals();
     initLevel();
     world = new World(canvas, keyboard);
-    setTimeout(() => {
-        startScreenBtn.classList.remove('d-none');
-        canvasElement.classList.remove('d-none');
-        gameOverElement.classList.add('d-none');
-        startElement.classList.add('d-none');
-    }, 200);
+    startScreenBtn.classList.remove('d-none');
+    canvasElement.classList.remove('d-none');
+    startElement.classList.add('d-none');
+    gameOverElement.classList.add('d-none');
 }
 
 /**

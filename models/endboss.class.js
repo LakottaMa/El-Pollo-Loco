@@ -130,14 +130,11 @@ class Endboss extends MoveableObject {
             this.playAnimation(this.IMAGES_WALKING);
             this.x -= this.speed;
             this.isMoved = true;
-            console.log(this.isMoved);
         } else if (world.checkDistanceToBoss() < 1000) {
             boss_attack_audio.play();
             this.playAnimation(this.IMAGES_ALERT);
             this.isMoved = true;
-            console.log(this.isMoved);
         }
-        console.log(this.isMoved);
     }
 
     /**
@@ -152,7 +149,6 @@ class Endboss extends MoveableObject {
             game_victory_audio.play();
         }, 1200);
         this.isMoved = false;
-        console.log(this.isMoved);
     }
 
     /**
